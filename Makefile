@@ -10,18 +10,16 @@ LIB_DIR		=	./lib
 
 INCLUDES	=	-I ./includes -I $(LIB_DIR)/includes
 
-SRCS_DIR	=	./srcs
-SRCS		=	$(wildcard $(SRCS_DIR)/*.c)
-OBJS		=	$(SRCS:.c=.o)
-
 UTILS_DIR	=	$(SRCS_DIR)/utils
-UTILS_SRCS	=	$(wildcard $(UTILS_DIR)/*.c)
-UTILS_OBJS	=	$(UTILS_SRCS:.c=.o)
+
+SRCS_DIR	=	./srcs
+SRCS		=	$(wildcard $(SRCS_DIR)/*.c $(UTILS_DIR)/*.c)
+OBJS		=	$(SRCS:.c=.o)
 
 BONUS		=	pipex_bonus
 
 BONUS_DIR	=	$(SRCS_DIR)/bonus
-BONUS_SRCS	=	$(wildcard $(BONUS_DIR)/*.c)
+BONUS_SRCS	=	$(wildcard $(BONUS_DIR)/*.c $(UTILS_DIR)/*.c)
 BONUS_OBJS	=	$(BONUS_SRCS:.c=.o)
 
 RESET		=	\033[0m
@@ -40,24 +38,16 @@ all: $(NAME)
 .c.o:
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-$(NAME): $(OBJS) $(UTILS_OBJS)
+$(NAME): $(OBJS)
 	@$(MAKE) -C $(LIB_DIR)
 	@echo "$(BOLD)$(LIGHT_BLUE)Compile $(NAME)...$(RESET)"
-	@$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(UTILS_OBJS) $(LIB_DIR)/$(LIB) -o $(NAME)
+	@$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIB_DIR)/$(LIB) -o $(NAME)
 	@echo "$(BOLD)$(LIGHT_BLUE)Compile $(NAME) Complete!$(RESET)"\
-
-bonus: $(BONUS)
-
-$(BONUS): $(BONUS_OBJS) $(OBJS) $(UTILS_OBJS)
-	@$(MAKE) -C $(LIB_DIR)
-	@echo "$(BOLD)$(LIGHT_BLUE)Compile $(BONUS)...$(RESET)"
-	@$(CC) $(CFLAGS) $(INCLUDES) $(BONUS_OBJS) $(UTILS_OBJS) $(LIB_DIR)/$(LIB) -o $(BONUS)
-	@echo "$(BOLD)$(LIGHT_BLUE)Compile $(BONUS) Complete!$(RESET)"
 
 clean:
 	@echo "$(BOLD)$(LIGHT_BLUE)Cleaning $(NAME)...$(RESET)"
 	@$(MAKE) clean -C $(LIB_DIR)
-	@$(RM) $(OBJS) $(BONUS_OBJS) $(UTILS_OBJS)
+	@$(RM) $(OBJS) $(BONUS_OBJS)
 	@echo "$(BOLD)$(LIGHT_BLUE)Cleaning $(NAME) Complete!$(RESET)"
 
 fclean: clean
@@ -66,6 +56,12 @@ fclean: clean
 	@$(RM) $(NAME) $(BONUS)
 	@echo "$(BOLD)$(LIGHT_BLUE)ALL Cleaning $(NAME) Complete!$(RESET)"
 
-re: fclean all bonus
+bonus: fclean $(BONUS_OBJS) $(OBJS)
+	@$(MAKE) -C $(LIB_DIR)
+	@echo "$(BOLD)$(LIGHT_BLUE)Compile $(BONUS)...$(RESET)"
+	@$(CC) $(CFLAGS) $(INCLUDES) $(BONUS_OBJS) $(LIB_DIR)/$(LIB) -o $(BONUS)
+	@echo "$(BOLD)$(LIGHT_BLUE)Compile $(BONUS) Complete!$(RESET)"
+
+re: fclean all
 
 .PHONY: all clean fclean re bonus

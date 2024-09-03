@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 22:04:46 by kinamura          #+#    #+#             */
-/*   Updated: 2024/09/03 22:10:48 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/09/04 01:45:37 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int main(int argc, char **argv, char **envp)
     }
     while (index < argc - 2)
     {
-        ft_child_process(argv[index], envp);
+        ft_process(argv[index], envp);
         index++;
     }
     dup2(outfile, STDOUT_FILENO);
