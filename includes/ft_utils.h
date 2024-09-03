@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 00:35:51 by kinamura          #+#    #+#             */
-/*   Updated: 2024/09/03 00:36:25 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/09/03 22:00:15 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,10 @@
 # include <fcntl.h>
 # include <unistd.h>
 
+void	ft_array_free(char **array);
 void	ft_error(void);
 void	ft_execute(char *cmd, char **envp);
+char	*ft_get_path(char *cmd, char **envp);
 char	*ft_get_path(char *cmd, char **envp);
 int		ft_line_size(char **line);
 int		ft_open_file(char *filename, int opt);
