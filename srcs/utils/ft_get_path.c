@@ -22,7 +22,7 @@ char	*ft_get_path(char *cmd, char **envp)
 	index = 0;
 	while (ft_strnstr(envp[index], "PATH", 4) == 0)
 		index++;
-	paths = ft_split(envp[index] + 5, ':');
+	paths = ft_split(&envp[index + 5], ':');
 	index = 0;
 	while (paths[index])
 	{
