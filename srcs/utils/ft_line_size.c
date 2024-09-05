@@ -22,9 +22,9 @@ int	ft_read_size(int fd, char **line)
 	size = 0;
 	while (read_bytes != 0)
 	{
-	 buf = malloc(sizeof(char) * READ_SIZE);
-	 if (!buf)
-		 return (-1);
+	    buf = malloc(sizeof(char) * READ_SIZE);
+	    if (!buf)
+		     return (-1);
 		read_bytes = read(fd, buf, READ_SIZE);
 		if (read_bytes < 0)
 			return (-1);
