@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 00:41:56 by kinamura          #+#    #+#             */
-/*   Updated: 2024/09/04 01:46:30 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/09/05 21:29:20 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include "get_next_line.h"
 # include "ft_printf.h"
 # include "ft_utils.h"
+
+#define READ_SIZE 1
 
 void	ft_parent_process(int outfile, char *cmd, char **envp, int *fd);
 int		main(int argc, char **argv, char **envp);

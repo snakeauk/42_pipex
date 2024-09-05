@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 21:25:46 by kinamura          #+#    #+#             */
-/*   Updated: 2024/09/03 21:59:14 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/09/05 21:27:56 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_get_path(char *cmd, char **envp)
 	index = 0;
 	while (ft_strnstr(envp[index], "PATH", 4) == 0)
 		index++;
-	paths = ft_split(&envp[index + 5], ':');
+	paths = ft_split(envp[index] + 5, ':');
 	index = 0;
 	while (paths[index])
 	{
