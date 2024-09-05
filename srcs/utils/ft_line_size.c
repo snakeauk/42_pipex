@@ -12,7 +12,7 @@
 
 #include "ft_utils.h"
 
-int	*ft_read_size(char **line)
+int	*ft_read_size(int fd, char **line)
 {
 	char	*buf;
 	ssize_t read_bytes;
