@@ -18,13 +18,13 @@ int	ft_read_size(int fd, char **line)
 	ssize_t read_bytes;
 	ssize_t	size;
 
-	buf = malloc(sizeof(char) * READ_SIZE);
-	if (!buf)
-		return (-1);
 	read_bytes = 1;
 	size = 0;
 	while (read_bytes != 0)
 	{
+	 buf = malloc(sizeof(char) * READ_SIZE);
+	 if (!buf)
+		 return (-1);
 		read_bytes = read(fd, buf, READ_SIZE);
 		if (read_bytes < 0)
 			return (-1);
