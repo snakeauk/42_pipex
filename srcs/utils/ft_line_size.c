@@ -12,6 +12,36 @@
 
 #include "ft_utils.h"
 
+int	*ft_read_size(char **line)
+{
+	char	*buf;
+	ssize_t read_bytes;
+	ssize_t	size;
+
+	buf = malloc(sizeof(char) * BUFFER_SIZE);
+	if (!buf)
+		return (NULL);
+	read_bytes = 1;
+	size = 0;
+	while (read_bytes != 0)
+	{
+		read_bytes = read(fd, buf, BUFFER_SIZE);
+		if (read_bytes < 0)
+			return (free(buf), free(str), -1);
+		if (buf)
+		{
+			if (ft_strchr(buf, '\n'))
+				break ;
+		}
+		*line = ft_memadd(*line, (const char *)buf, read_bytes);
+		if (!line)
+			return (free(buf), -1);
+		size += read_bytes;
+	}
+	free(buf);
+	return ((int)size);
+}
+
 int	ft_line_size(char **line)
 {
 	char	*buf;
