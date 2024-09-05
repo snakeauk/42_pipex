@@ -26,7 +26,7 @@ void	ft_here_doc(char *limiter, int argc)
 	if (pid == 0)
 	{
 		close(fd[0]);
-		while (ft_line_size(&line))
+		while (ft_read_size(0, &line))
 		{
 			if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0 && line[ft_strlen(limiter)] == '\n')
 				break;
