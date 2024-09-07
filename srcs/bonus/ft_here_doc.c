@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 21:46:31 by kinamura          #+#    #+#             */
-/*   Updated: 2024/09/07 11:07:19 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/09/07 13:58:25 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ void	ft_here_doc(char *limiter, int argc)
 	char	*line;
 
 	if (argc < 6)
-		ft_error();
+		ft_error("");
 	if (pipe(fd) == -1)
-		ft_error();
+		ft_error("");
 	pid = fork();
 	if (pid == 0)
 	{
 		close(fd[0]);
 		line = get_next_line(1);
-		while (line != NULL)
+		while (line)
 		{
 			if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0 && line[ft_strlen(limiter)] == '\n')
 				break;
@@ -40,7 +40,8 @@ void	ft_here_doc(char *limiter, int argc)
 	else
 	{
 		close(fd[1]);
-		dup2(fd[0], STDIN_FILENO);
+		if (dup2(fd[0], STDIN_FILENO) == -1)
+            ft_error("");
 		wait(NULL);
 	}
 }

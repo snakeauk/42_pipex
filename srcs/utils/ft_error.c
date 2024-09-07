@@ -6,14 +6,17 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 20:29:24 by kinamura          #+#    #+#             */
-/*   Updated: 2024/09/04 01:04:09 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/09/07 12:36:03 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_utils.h"
 
-void	ft_error(void)
+void	ft_error(const char *format, ...)
 {
-	perror("Error");
+	if (format != NULL)
+		ft_printf(format);
+	else
+		perror("Error");
 	exit(EXIT_FAILURE);
 }

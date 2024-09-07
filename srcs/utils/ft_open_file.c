@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 21:15:14 by kinamura          #+#    #+#             */
-/*   Updated: 2024/09/02 22:13:06 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/09/07 12:38:58 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,6 @@ int	ft_open_file(char *filename, int opt)
 	else if (opt == 2)
 		fd = open(filename, O_RDONLY, 0777);
 	if (fd == -1)
-		ft_error();
+		ft_error("");
 	return (fd);
 }

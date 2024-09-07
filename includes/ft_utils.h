@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 00:35:51 by kinamura          #+#    #+#             */
-/*   Updated: 2024/09/07 11:08:59 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/09/07 13:53:42 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@
 void	ft_array_free(char **array);
 void	ft_child_process(char *cmd, char **envp, int *fd);
 void	ft_error_message(char *message);
-void	ft_error(void);
+void	ft_error(const char *format, ...);
 void	ft_execute(char *cmd, char **envp);
 char	*ft_get_path(char *cmd, char **envp);
 int		ft_open_file(char *filename, int opt);
+void	ft_parent_process(pid_t pid, int *fd);
 
 #endif
