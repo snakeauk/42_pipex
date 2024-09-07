@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 00:35:51 by kinamura          #+#    #+#             */
-/*   Updated: 2024/09/06 00:06:38 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/09/07 11:08:59 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	ft_error_message(char *message);
 void	ft_error(void);
 void	ft_execute(char *cmd, char **envp);
 char	*ft_get_path(char *cmd, char **envp);
-int	    ft_read_size(int fd, char **line);
 int		ft_open_file(char *filename, int opt);
 
 #endif

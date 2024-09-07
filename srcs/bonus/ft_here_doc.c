@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 21:46:31 by kinamura          #+#    #+#             */
-/*   Updated: 2024/09/03 22:06:22 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/09/07 11:07:19 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,13 @@ void	ft_here_doc(char *limiter, int argc)
 	if (pid == 0)
 	{
 		close(fd[0]);
-		while (ft_read_size(0, &line) > 0)
+		line = get_next_line(1);
+		while (line != NULL)
 		{
 			if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0 && line[ft_strlen(limiter)] == '\n')
 				break;
 			write(fd[1], line, ft_strlen(line));
+			line = get_next_line(1);
 		}
 		close(fd[1]);
 		exit(0);
