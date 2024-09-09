@@ -26,7 +26,7 @@
 
 void	ft_array_free(char **array);
 void	ft_child_process(char *cmd, char **envp, int *fd);
-void	ft_error_message(char *message);
+void    ft_error_message(int fd, char *message);
 void	ft_error(const char *format, ...);
 void	ft_execute(char *cmd, char **envp);
 char	*ft_get_path(char *cmd, char **envp);
