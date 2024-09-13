@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/21 03:07:06 by kinamura          #+#    #+#             */
-/*   Updated: 2024/08/13 14:57:07 by kinamura         ###   ########.fr       */
+/*   Created: 2024/09/14 00:25:40 by kinamura          #+#    #+#             */
+/*   Updated: 2024/09/14 02:26:38 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,29 +22,22 @@
 # define BASE_LOW_16 "0123456789abcdef"
 # define BASE_TOP_16 "0123456789ABCDEF"
 
-typedef struct s_args
-{
-	va_list	ap;
-	char	*fmt;
-	size_t	index;
-	int		length;
-	int		error_flag;
-}			t_args;
-
-int			ft_printf(const char *format, ...);
-void		ft_vprintf(t_args *args);
-int			ft_outchar(char c);
-int			ft_outstr(const char *str);
-void		ft_printf_type(t_args *args);
-int			ft_printf_c(t_args *args);
-int			ft_printf_s(t_args *args);
-int			ft_printf_p(t_args *args);
-int			ft_printf_d(t_args *args);
-int			ft_printf_i(t_args *args);
-int			ft_printf_u(t_args *args);
-int			ft_printf_x(t_args *args);
-int			ft_printf_large_x(t_args *args);
-int			ft_putnbr_base(long long num, char *base);
-int			ft_putunbr_base(unsigned long long num, char *base);
+int		ft_fputi(int num, int fd);
+int		ft_fputp(unsigned long long unum, int fd);
+int		ft_fputs(const char *s, int fd);
+int		ft_putc(int c, int fd);
+int		ft_fputu(unsigned int unum, int fd);
+int		ft_fputx(unsigned int unum, int fd, int c);
+char	*ft_itoa_base(int num, char *base);
+char	*ft_uitoa_base(unsigned int n, char *base);
+char	*ft_ulltoa_base(unsigned long long unum, char *base);
+size_t	ft_uisize(unsigned int n, int base);
+size_t	ft_isize(int num, int base);
+size_t	ft_ullsize(unsigned long long unum, char *base);
+int		ft_printf_switch(const char *format, va_list *ap, int fd);
+int		ft_vdprintf(int fd, const char *format, va_list ap);
+int		ft_vprintf(const char *format, va_list ap);
+int		ft_dprintf(int fd, const char *format, ...);
+int		ft_printf(const char *format, ...);
 
 #endif

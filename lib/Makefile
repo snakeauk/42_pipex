@@ -4,13 +4,21 @@ CFLAGS		=	-Wall -Wextra -Werror
 RM			=	rm -rf
 AR			=	ar rcs
 
-LIBFT_DIR	=	./srcs/libft/srcs
-GNL_DIR		=	./srcs/get_next_line/srcs
-PRINTF_DIR	=	./srcs/ft_printf/srcs
+SRCS_DIR	=	./srcs
+
+CTYPE_DIR	=	$(SRCS_DIR)/ctype
+LIST_DIR	=	$(SRCS_DIR)/list
+MATH_DIR	=	$(SRCS_DIR)/math
+MEMORY_DIR	=	$(SRCS_DIR)/memory
+STDIO_DIR	=	$(SRCS_DIR)/stdio
+STDLIB_DIR	=	$(SRCS_DIR)/stdlib
+STRING_DIR	=	$(SRCS_DIR)/string
 
 INCLUDES	=	./includes
 
-SRCS		=	$(wildcard $(LIBFT_DIR)/*.c $(GNL_DIR)/*.c $(PRINTF_DIR)/*.c)
+SRCS		=	$(wildcard $(SRCS_DIR)/*.c $(CTYPE_DIR)/*.c $(LIST_DIR)/*.c \
+					$(MATH_DIR)/*.c $(MEMORY_DIR)/*.c $(STDIO_DIR)/*.c $(MATH_DIR)/*.c \
+					$(STDLIB_DIR)/*.c $(GNL_DIR)/*.c $(PRINTF_DIR)/*.c $(STRING_DIR)/*.c)
 OBJS		=	$(SRCS:.c=.o)
 
 RESET		=	\033[0m
