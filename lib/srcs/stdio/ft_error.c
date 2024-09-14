@@ -6,17 +6,18 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 20:29:24 by kinamura          #+#    #+#             */
-/*   Updated: 2024/09/07 12:36:03 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/09/14 11:11:59 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_utils.h"
+#include "ft_printf.h"
 
 void	ft_error(const char *format, ...)
 {
-	if (format != NULL)
-		ft_printf(format);
-	else
-		perror("Error");
+	va_list ap;
+
+	va_start(ap, format);
+	ft_vdprintf(STDOUT_FILENO, format, ap);
+	va_end(ap);
 	exit(EXIT_FAILURE);
 }

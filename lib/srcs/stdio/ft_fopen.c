@@ -6,11 +6,12 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 21:15:14 by kinamura          #+#    #+#             */
-/*   Updated: 2024/09/14 10:34:19 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/09/14 10:53:09 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "ft_printf.h"
 
 int	ft_fopen(char *filename, char *opt)
 {
@@ -24,7 +25,7 @@ int	ft_fopen(char *filename, char *opt)
 	else if (ft_strncmp(opt, "r", 1) == 0 && ft_strlen(opt) == 1)
 		fd = open(filename, O_RDONLY);
 	else
-		ft_error("Invalid file operation mode.");
+		ft_error("Invalid file operation mode.\n");
 	if (fd == -1)
 		perror("Error opening file");
 	return (fd);
