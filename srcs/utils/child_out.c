@@ -1,19 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_error_message.c                                 :+:      :+:    :+:   */
+/*   child_out.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/04 01:03:49 by kinamura          #+#    #+#             */
-/*   Updated: 2024/09/08 23:51:33 by kinamura         ###   ########.fr       */
+/*   Created: 2024/09/17 00:34:47 by kinamura          #+#    #+#             */
+/*   Updated: 2024/09/17 00:41:10 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_utils.h"
 
-void	ft_error_message(int fd, char *message)
+void	child_out(int argc, char **argv, char **envp, int *fd)
 {
-	ft_putendl_fd(message, fd);
-	exit(EXIT_FAILURE);
+	int	outfile;
+
+	outfile = ft_fopen(argv[argc - 1], "w");
+	if (outfile < 0)
+		ft_error("Error: Failed to open output file\n");
+	ft_dup2(&fd[0], STDIN_FILENO);
+	close(fd[0]);
+	ft_dup2(&outfile, STDOUT_FILENO);
+	close(outfile);
+	ft_execute(argv[3], envp);
 }

@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 20:29:24 by kinamura          #+#    #+#             */
-/*   Updated: 2024/09/14 11:11:59 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/09/16 16:51:41 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_error(const char *format, ...)
 	va_list ap;
 
 	va_start(ap, format);
-	ft_vdprintf(STDOUT_FILENO, format, ap);
+	ft_vdprintf(STDERR_FILENO, format, ap);
 	va_end(ap);
 	exit(EXIT_FAILURE);
 }

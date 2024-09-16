@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:50:06 by kinamura          #+#    #+#             */
-/*   Updated: 2024/09/07 11:08:47 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/09/17 00:50:59 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include "ft_utils.h"
 
 // ft_process.c
-void	ft_process(char *cmd, char **envp);
+void	ft_process(char *cmd, char **envp, int *fd);
 
 // ft_here_doc.c
 void	ft_here_doc(char *limiter, int argc);

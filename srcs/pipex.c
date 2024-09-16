@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 00:40:55 by kinamura          #+#    #+#             */
-/*   Updated: 2024/09/07 13:53:40 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/09/17 00:33:34 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,26 @@ int	main(int argc, char **argv, char **envp)
 {
 	int		fd[2];
 	pid_t	pid;
-	int		infile;
-	int		outfile;
 
 	if (argc != 5)
-		ft_error("input error\n");
+		ft_error("Error: Invalid number of arguments\n");
 	if (pipe(fd) == -1)
-		ft_error("");
+		ft_error("Error: Failed to create pipe\n");
 	pid = fork();
 	if (pid == -1)
-		ft_error("");
+		ft_error("Error: Failed to fork\n");
 	if (pid == 0)
-	{
-		infile  = ft_open_file(argv[1], 2);
-        if (dup2(infile, STDIN_FILENO) == -1)
-            ft_error("");
-		ft_child_process(argv[2], envp, fd);
-	}
-	ft_parent_process(pid, fd);
-	outfile = ft_open_file(argv[argc - 1], 1);
-	if (dup2(outfile, STDOUT_FILENO) == -1)
-		ft_error("");
-	ft_execute(argv[3], envp);
+		child_in(argv, envp, fd);
+	close(fd[1]);
+	if (waitpid(pid, NULL, 0) == -1)
+		ft_error("Error: waitpid failed\n");
+	pid = fork();
+	if (pid == -1)
+		ft_error("Error: Failed to fork\n");
+	if (pid == 0)
+		child_out(argc, argv, envp, fd);
+	close(fd[0]);
+	if (waitpid(pid, NULL, 0) == -1)
+		ft_error("Error: waitpid failed\n");
 	return (0);
 }

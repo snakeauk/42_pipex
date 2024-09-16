@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_open_file.c                                     :+:      :+:    :+:   */
+/*   ft_dup2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/02 21:15:14 by kinamura          #+#    #+#             */
-/*   Updated: 2024/09/07 12:38:58 by kinamura         ###   ########.fr       */
+/*   Created: 2024/09/17 00:34:18 by kinamura          #+#    #+#             */
+/*   Updated: 2024/09/17 00:34:30 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_utils.h"
 
-int	ft_open_file(char *filename, int opt)
+int	ft_dup2(int *fildes, int fildes2)
 {
-	int	fd;
+	int	ret;
 
-	fd = 0;
-	if (opt == 0)
-		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0777);
-	else if (opt == 1)
-		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	else if (opt == 2)
-		fd = open(filename, O_RDONLY, 0777);
-	if (fd == -1)
-		ft_error("");
-	return (fd);
+	ret = dup2(*fildes, fildes2);
+	if (ret < 0)
+		ft_error("Error: Failed to redirect file descriptor\n");
+	return (ret);
 }
