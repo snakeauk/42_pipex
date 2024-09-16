@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 22:04:46 by kinamura          #+#    #+#             */
-/*   Updated: 2024/09/17 00:48:17 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/09/17 07:36:01 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	main(int argc, char **argv, char **envp)
 {
 	int 	index;
 	int 	fd[2];
-	pid_t	pid;
 	int outfile;
 
 	if (argc <= 4)
@@ -28,13 +27,13 @@ int	main(int argc, char **argv, char **envp)
 	}
 	else
 	{
-		child_in(argc, envp, fd);
+		child_in(argv, envp, fd);
 		index = 2;
 	}
 	outfile = ft_fopen(argv[argc - 1], "w");
 	while (index < argc - 2)
 	{
-		ft_process(argv[index], envp, &fd);
+		ft_process(argv[index], envp, fd);
 		index++;
 	}
 	if (dup2(outfile, STDOUT_FILENO) == -1)

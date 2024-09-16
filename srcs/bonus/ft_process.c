@@ -20,8 +20,7 @@ void	ft_process(char *cmd, char **envp, int *fd)
 	if (pid == -1)
 		ft_error("Error: Failed to fork\n");
 	if (pid == 0)
-		child_out(argc, char **argv, char **envp, int *fd);
-		child_out(cmd, envp, fd);
+		ft_child(cmd, envp, fd);
 	close(fd[0]);
 	if (waitpid(pid, NULL, 0) == -1)
 		ft_error("Error: waitpid failed\n");
