@@ -23,20 +23,16 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc <= 4)
 		ft_error("Error: insufficient arguments\n");
-
 	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
 	{
 		index = 3;
 		if (argc < 6)
 			ft_error("Error: insufficient arguments\n");
-
 		if (pipe(fd) == -1)
 			ft_error("Error: failed to create pipe\n");
-
 		pid = fork();
 		if (pid == -1)
 			ft_error("Error: failed to fork\n");
-
 		if (pid == 0)
 		{
 			close(fd[0]);
@@ -71,11 +67,9 @@ int	main(int argc, char **argv, char **envp)
 	{
 		if (pipe(fd) == -1)
 			ft_error("Error: failed to create pipe\n");
-
 		pid = fork();
 		if (pid == -1)
 			ft_error("Error: Failed to fork\n");
-
 		if (pid == 0)
 		{
 			ft_dup2(&fd[1], STDOUT_FILENO);
@@ -92,8 +86,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		index++;
 	}
-	if (dup2(outfile, STDOUT_FILENO) == -1)
-		ft_error("Error: failed to redirect stdout\n");
+	ft_dup2(&outfile, STDOUT_FILENO);
 	close(outfile);
 	ft_execute(argv[argc - 2], envp);
 	return (0);
