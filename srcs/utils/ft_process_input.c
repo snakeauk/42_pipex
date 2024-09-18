@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 00:35:22 by kinamura          #+#    #+#             */
-/*   Updated: 2024/09/18 23:22:55 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/09/18 23:35:06 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	ft_process_input(char **argv, char **envp, int *fd)
 		ft_execute(argv[2], envp);
 	}
 	close(fd[1]);
+
 	if (waitpid(pid, NULL, 0) == -1)
 		ft_error("Error: waitpid failed\n");
 }
