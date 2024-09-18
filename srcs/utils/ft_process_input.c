@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 23:37:07 by kinamura          #+#    #+#             */
-/*   Updated: 2024/09/18 23:37:09 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/09/18 23:38:01 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,6 @@ void	ft_process_input(char **argv, char **envp, int *fd)
 		ft_execute(argv[2], envp);
 	}
 	close(fd[1]);
-<<<<<<< HEAD
-=======
-
->>>>>>> refs/remotes/origin/main
 	if (waitpid(pid, NULL, 0) == -1)
 		ft_error("Error: waitpid failed\n");
 }
