@@ -12,16 +12,6 @@
 
 #include "pipex_bonus.h"
 
-void	ft_process(char *cmd, char **envp, int *fd)
-{
-	pid_t	pid;
-
-	pid = fork();
-	if (pid == -1)
-		ft_error("Error: Failed to fork\n");
-	if (pid == 0)
-		ft_child(cmd, envp, fd);
-	close(fd[0]);
-	if (waitpid(pid, NULL, 0) == -1)
-		ft_error("Error: waitpid failed\n");
-}
+// void	ft_process(char *cmd, char **envp, int *fd)
+// {
+// }
