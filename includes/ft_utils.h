@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 00:35:51 by kinamura          #+#    #+#             */
-/*   Updated: 2024/09/17 07:33:10 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/09/18 21:30:46 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,11 @@
 #define READ_SIZE 1
 
 void	ft_array_free(char **array);
-void	ft_child(char *cmd, char **envp, int *fd);
+void	ft_process_input(char **argv, char **envp, int *fd);
+void	ft_process_output(int index, char **argv, char **envp, int *fd);
 void	ft_execute(char *cmd, char **envp);
-int		ft_dup2(int *fildes, int fildes2);
+int		ft_dup2(int fildes, int fildes2);
 char	*ft_get_path(char *cmd, char **envp);
 void	ft_parent_process(pid_t pid, int *fd);
-void	child_in(char **argv, char **envp, int *fd);
-void	child_out(int argc, char **argv, char **envp, int *fd);
 
 #endif
