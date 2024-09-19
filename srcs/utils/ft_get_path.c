@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 21:25:46 by kinamura          #+#    #+#             */
-/*   Updated: 2024/09/14 17:33:38 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/09/20 00:06:34 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*ft_get_path(char *cmd, char **envp)
 		part_path = ft_strjoin(paths[index], "/");
 		path = ft_strjoin(part_path, cmd);
 		free(part_path);
-		if (access(path, F_OK) == 0)
+		if (ft_access(path) == 0)
 		{
 			ft_array_free(paths);
 			return (path);
