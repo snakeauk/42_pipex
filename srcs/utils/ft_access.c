@@ -6,17 +6,25 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 00:05:19 by kinamura          #+#    #+#             */
-/*   Updated: 2024/09/20 00:14:05 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/09/25 23:24:58 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_utils.h"
 
-int ft_access(char *path)
+int ft_access(char *filepath)
 {
-    if (access(path, F_OK) == 0 && access(path, X_OK) != 0)
-        ft_error("Error: permission denied\n");
-    else if (access(path, F_OK) == 0 && access(path, X_OK) == 0)
-        return (0);
+    if (access(filepath, F_OK) == 0)
+    {
+        if (access(filepath, W_OK) != 0 || access(filepath, R_OK) != 0)
+            ft_dprintf(STDERR_FILENO, "Error: permission denied\n");
+        else if (access(filepath, X_OK) != 0)
+            ft_dprintf(STDERR_FILENO, "Error: permission denied\n");
+        else if (access(filepath, X_OK) == 0)
+            return (0);
+        return (-1);
+    }
+    else
+        ft_dprintf(STDERR_FILENO, "No such file or directory\n");
     return (-1);
 }
