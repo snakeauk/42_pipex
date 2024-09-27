@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 00:40:55 by kinamura          #+#    #+#             */
-/*   Updated: 2024/09/24 19:20:07 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/09/27 23:36:02 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ int main(int argc, char **argv, char **envp)
 		close(infile);
 		ft_dup2(pipe_fd[1], STDOUT_FILENO);
 		close(pipe_fd[1]);
-		if (ft_execute(cmd, argc - 2, envp) != NULL)
-			ret = 127;
-		ft_array_free(cmd);
+		ft_execute(cmd,envp);
+		// 	ret = 127;
+		// ft_array_free(cmd);
 	}
 	else
 	{
