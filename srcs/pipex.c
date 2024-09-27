@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 00:40:55 by kinamura          #+#    #+#             */
-/*   Updated: 2024/09/26 02:28:25 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/09/27 23:43:12 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,32 @@ int main(int argc, char **argv, char **envp)
 	int	ret;
 
 	ret = 0;
-    if (argc < 5)
-        ft_error("Error: Invalid number of arguments");
-
-    ft_pipex(argc, argv, envp);
-    return (ret);
+	infile = ft_fopen(argv[1], "r");
+	outfile = ft_fopen(argv[argc - 1], "w");
+	if (outfile < 0)
+		ret = -1;
+	cmd = ft_command(argc, argv);
+	pipe(pipe_fd);
+	pid = fork();
+	if (pid == 0)
+	{
+		close(pipe_fd[0]);
+		ft_dup2(infile, STDIN_FILENO);
+		close(infile);
+		ft_dup2(pipe_fd[1], STDOUT_FILENO);
+		close(pipe_fd[1]);
+		if (ft_execute(cmd, argc - 2, envp) != NULL)
+			ret = 127;
+		ft_array_free(cmd);
+	}
+	else
+	{
+		close(pipe_fd[1]);
+		ft_dup2(outfile, STDOUT_FILENO);
+		close(outfile);
+		ft_dup2(pipe_fd[0], STDIN_FILENO);
+		close(pipe_fd[0]);
+	}
+	return (ret);
 }
 
