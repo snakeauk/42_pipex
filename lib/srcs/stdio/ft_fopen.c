@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 21:15:14 by kinamura          #+#    #+#             */
-/*   Updated: 2024/09/19 22:13:51 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/09/24 01:58:33 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int ft_fopen(char *filename, const char *mode)
         ft_error("Invalid file operation mode.\n");
     if (fd < 0)
     {
-        perror("Error opening file");
+        perror("No such file or directory");
         exit(EXIT_FAILURE);
     }
     return (fd);

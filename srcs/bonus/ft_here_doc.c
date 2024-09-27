@@ -6,16 +6,15 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 21:46:31 by kinamura          #+#    #+#             */
-/*   Updated: 2024/09/14 17:08:30 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/09/19 00:46:14 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-void	ft_here_doc(char *limiter, int argc)
+void	ft_here_doc(char *limiter, int argc, int *fd)
 {
 	pid_t pid;
-	int fd[2];
 	char *line;
 
 	if (argc < 6)
@@ -28,7 +27,7 @@ void	ft_here_doc(char *limiter, int argc)
 	if (pid == 0)
 	{
 		close(fd[0]);
-		while ((line = get_next_line(1)) != NULL)
+		while ((line = get_next_line(0)) != NULL)
 		{
 			if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0
 				&& line[ft_strlen(limiter)] == '\n')
@@ -36,7 +35,12 @@ void	ft_here_doc(char *limiter, int argc)
 				free(line);
 				break ;
 			}
-			write(fd[1], line, ft_strlen(line));
+			if (write(fd[1], line, ft_strlen(line)) == -1)
+			{
+				free(line);
+				close(fd[1]);
+				ft_error("Error: failed to write to pipe\n");
+			}
 			free(line);
 		}
 		close(fd[1]);
@@ -45,9 +49,7 @@ void	ft_here_doc(char *limiter, int argc)
 	else
 	{
 		close(fd[1]);
-		if (dup2(fd[0], STDIN_FILENO) == -1)
-			ft_error("Error: failed to redirect stdin\n");
-		wait(NULL);
-		close(fd[0]);
+		if (waitpid(pid, NULL, 0) == -1)
+			ft_error("Error: waitpid failed\n");
 	}
 }

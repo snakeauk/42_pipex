@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:50:06 by kinamura          #+#    #+#             */
-/*   Updated: 2024/09/17 07:34:29 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/09/19 00:44:20 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 void	ft_process(char *cmd, char **envp, int *fd);
 
 // ft_here_doc.c
-void	ft_here_doc(char *limiter, int argc);
+void	ft_here_doc(char *limiter, int argc, int *fd);
 
 // pipex_bonus.c
 int 	main(int argc, char **argv, char **envp);
