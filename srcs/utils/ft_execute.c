@@ -2,28 +2,32 @@
 
 void	ft_execute(char *command, char **envp)
 {
-	char	**cmd;
-	char	*path;
+    char	**cmd;
+    char	*path;
 
-	cmd = ft_split(command, ' ');
-	if (!cmd || !cmd[0])
-	{
-		ft_array_free(cmd);
-		ft_error("Error: command parsing failed\n");
-		return ;
-	}
-	path = ft_get_path(cmd[0], envp);
-	if (!path)
-	{
-		ft_error("%s : command not found\n", cmd[0]);
-		ft_array_free(cmd);
-		return ;
-	}
-	if (execve(path, cmd, envp) == -1)
-		perror("Error: permission denied");
-	ft_array_free(cmd);
-	free(path);
+    cmd = ft_split(command, ' ');
+    if (!cmd || !cmd[0])
+    {
+        ft_array_free(cmd);
+        perror("Error: command parsing failed");
+        exit(EXIT_FAILURE);
+    }
+    path = ft_get_path(cmd[0], envp);
+    if (!path)
+    {
+        fprintf(stderr, "%s: command not found\n", cmd[0]);
+        ft_array_free(cmd);
+        exit(EXIT_FAILURE);
+    }
+    if (execve(path, cmd, envp) == -1)
+    {
+        perror("Error");
+        ft_array_free(cmd);
+        free(path);
+        exit(EXIT_FAILURE);
+    }
 }
+
 int **ft_create_pipe(int count)
 {
     int index;
@@ -125,76 +129,81 @@ void	ft_infile(int infile, int **pipes, int index)
 // 		index++;
 //     }
 // }
-void ft_pipex(int argc, char **argv, char **envp)
+void    ft_execute_all(int argc, char **argv, char **envp)
 {
-    int     infile;
-    int     outfile;
-    int     **pipes;
-    pid_t   *child_pids;
-    int     num_commands;
-    int     num_pipes;
-    int     index;
+    int     num_commands = argc - 3; // コマンドの数
+    int     num_pipes = num_commands - 1; // 必要なパイプの数
+    int     pipes[num_pipes][2];
+    pid_t   pid;
 
-    num_commands = argc - 3;
-    num_pipes = num_commands - 1;
-
-    // パイプと子プロセスIDの配列を作成
-    pipes = ft_create_pipe(num_pipes);
-    if (!pipes)
-        ft_error("Error: Pipe creation failed");
-
-    child_pids = malloc(sizeof(pid_t) * num_commands);
-    if (!child_pids)
-        ft_error("Error: Memory allocation failed");
-
-    // ファイルのオープンとエラーチェック
-    infile = ft_fopen(argv[1], "r");
-    if (infile == -1)
-        ft_error("Error: Failed to open input file");
-
-    outfile = ft_fopen(argv[argc - 1], "w");
-    if (outfile == -1)
-        ft_error("Error: Failed to open output file");
-
-    index = 0;
-    while (index < num_commands)
+    // パイプの作成
+    for (int i = 0; i < num_pipes; i++)
     {
-        pid_t pid = fork();
+        if (pipe(pipes[i]) == -1)
+            ft_error("Error: Pipe creation failed\n");
+    }
+
+    // コマンドの実行
+    for (int i = 0; i < num_commands; i++)
+    {
+        pid = fork();
         if (pid == -1)
             ft_error("Error: Fork failed");
-
         if (pid == 0)
         {
-            // 子プロセス内
-            ft_infile(infile, pipes, index);
-            ft_outfile(argc, outfile, pipes, index);
-            ft_close_unused_pipes(pipes, num_pipes, index);
-    		ft_close_all_pipes(pipes, num_pipes);
-            if (ft_execute(argv[2 + index], envp) == -1)
-                exit(EXIT_FAILURE);
-            exit(EXIT_SUCCESS);
+            // 入力の設定
+            if (i == 0)
+            {
+                // 最初のコマンド
+                int infile = ft_fopen(argv[1], "r");
+                if (infile < 0)
+                    ft_error("Error: Can't open infile");
+                dup2(infile, STDIN_FILENO);
+                close(infile);
+            }
+            else
+            {
+                // 前のパイプから読み込む
+                dup2(pipes[i - 1][0], STDIN_FILENO);
+            }
+
+            // 出力の設定
+            if (i == num_commands - 1)
+            {
+                // 最後のコマンド
+                int outfile = ft_fopen(argv[argc - 1], "w");
+                if (outfile < 0)
+                    ft_error("Error: Can't open outfile");
+                dup2(outfile, STDOUT_FILENO);
+                close(outfile);
+            }
+            else
+            {
+                // 次のパイプに書き込む
+                dup2(pipes[i][1], STDOUT_FILENO);
+            }
+
+            // 不要なパイプを閉じる
+            for (int j = 0; j < num_pipes; j++)
+            {
+                close(pipes[j][0]);
+                close(pipes[j][1]);
+            }
+
+            // コマンドの実行
+            ft_execute(argv[2 + i], envp);
+            exit(EXIT_FAILURE);
         }
-        else
-        {
-            // 親プロセス内
-            child_pids[index] = pid;
-        }
-        index++;
     }
 
-    // 親プロセスで全てのパイプをクローズ
-    ft_close_all_pipes(pipes, num_pipes);
-
-    // 全ての子プロセスを待機
-    index = 0;
-    while (index < num_commands)
+    // 親プロセスでのパイプのクローズと子プロセスの待機
+    for (int i = 0; i < num_pipes; i++)
     {
-        int status;
-        waitpid(child_pids[index], &status, 0);
-        index++;
+        close(pipes[i][0]);
+        close(pipes[i][1]);
     }
-
-    free(child_pids);
-    close(infile);
-    close(outfile);
+    for (int i = 0; i < num_commands; i++)
+    {
+        wait(NULL);
+    }
 }
