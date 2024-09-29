@@ -1,9 +1,14 @@
 #include "ft_utils.h"
 
-static void ft_stdin(int infile, int **pipes, int index)
+static void ft_stdin(char **argv, int **pipes, int index)
 {
+	int infile;
+
     if (index == 0)
     {
+    	infile = ft_fopen(argv[1], "r");
+    	if (infile < 0)
+			exit(EXIT_FAILURE);
         dup2(infile, STDIN_FILENO);
         close(infile);
     }
@@ -14,10 +19,15 @@ static void ft_stdin(int infile, int **pipes, int index)
     }
 }
 
-static void ft_stdout(int argc, int outfile, int **pipes, int index)
+static void ft_stdout(int argc, char **argv, int **pipes, int index)
 {
+	int outfile;
+
     if (index == argc - 4)
     {
+		outfile = ft_fopen(argv[argc - 1], "w");
+		if (outfile < 0)
+			exit(EXIT_FAILURE);
         dup2(outfile, STDOUT_FILENO);
         close(outfile);
     }
@@ -28,24 +38,10 @@ static void ft_stdout(int argc, int outfile, int **pipes, int index)
     }
 }
 
-static int ft_file_open(int argc, char **argv, int *infile, int *outfile)
+void ft_stdio(int argc, char **argv, int **pipes, int index)
 {
-    int ret;
-
-    ret = 0;
-    *infile = ft_fopen(argv[1], "r");
-    if (*infile < 0) // infileのエラーチェックを追加
-    {
-        ft_dprintf(STDERR_FILENO, "Error: Failed to open input file\n");
-        ret = -1;
-    }
-    *outfile = ft_fopen(argv[argc - 1], "w");
-    if (*outfile < 0)
-    {
-        ft_dprintf(STDERR_FILENO, "Error: Failed to open output file\n");
-        ret = -1;
-    }
-    return (ret);
+	ft_stdin(argv, pipes, index);
+	ft_stdout(argc, argv, pipes, index);
 }
 
 static int **ft_create_pipe(int length)
@@ -91,66 +87,48 @@ void    ft_close_pipe(int **pipe, int length)
         index++;
     }
 }
-// ft_pipex関数の修正
-int ft_pipex(int argc, char **argv, char **env)
-{
-    int     ret;
-    int     infile;
-    int     outfile;
-    int     **pipes;
-    int     commands_len = argc - 3;
-    int     index;
-    pid_t   *pids; // 子プロセスのPIDを保存する配列
 
-    ret = ft_file_open(argc, argv, &infile, &outfile);
-    if (ret == -1)
-        return (ret);
-    pipes = ft_create_pipe(argc - 4);
-    pids = (pid_t *)malloc(sizeof(pid_t) * commands_len);
-    if (!pids)
-    {
-        ft_dprintf(STDERR_FILENO, "Error: malloc failed\n");
-        ft_int_array_free(pipes);
-        exit(EXIT_FAILURE);
-    }
+void	ft_waitpid(pid_t *pids, int size, int *status)
+{
+	int	index;
 
     index = 0;
-    while (index < commands_len)
+    while (index < size)
+    {
+        waitpid(pids[index], status, 0);
+        index++;
+    }
+}
+
+int ft_pipex(int argc, char **argv, char **env)
+{
+    int     status;
+    int     **pipes;
+    int     index;
+    pid_t   *pids;
+
+    pipes = ft_create_pipe(argc - 4);
+    pids = (pid_t *)malloc(sizeof(pid_t) * (argc - 3));
+    if (!pids)
+        ft_exit(STDERR_FILENO, "Error: malloc failed");
+    index = 0;
+    while (index < argc - 3)
     {
         pids[index] = fork();
         if (pids[index] == -1)
-        {
-            ft_dprintf(STDERR_FILENO, "Error: Fork failed\n");
-            exit(EXIT_FAILURE);
-        }
+            ft_exit(STDERR_FILENO, "Error: Fork failed");
         if (pids[index] == 0)
         {
-            // 子プロセス内での処理
-            ft_stdin(infile, pipes, index);
-            ft_stdout(argc, outfile, pipes, index);
-
-            // 子プロセスは不要なパイプをすべて閉じる
+			ft_stdio(argc, argv, pipes, index);
             ft_close_pipe(pipes, argc - 4);
-            ft_int_array_free(pipes);
-
             ft_execute(argv[2 + index], env);
-            exit(EXIT_FAILURE); // ft_executeが戻ってきた場合はエラー
+            exit(EXIT_FAILURE);
         }
         index++;
     }
-
-    // 親プロセスは不要なパイプをすべて閉じる
     ft_close_pipe(pipes, argc - 4);
+	ft_waitpid(pids, argc - 3, &status);
     ft_int_array_free(pipes);
-
-    // 子プロセスの終了を待つ
-    index = 0;
-    while (index < commands_len)
-    {
-        waitpid(pids[index], NULL, 0);
-        index++;
-    }
     free(pids);
-
-    return (ret);
+    return (status);
 }
