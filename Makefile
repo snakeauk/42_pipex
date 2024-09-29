@@ -13,13 +13,13 @@ INCLUDES	=	-I ./includes -I $(LIB_DIR)/includes
 UTILS_DIR	=	$(SRCS_DIR)/utils
 
 SRCS_DIR	=	./srcs
-SRCS		=	$(wildcard $(SRCS_DIR)/*.c $(UTILS_DIR)/*.c)
+MAN_DIR		=	$(SRCS_DIR)/mandatory
+SRCS		=	$(wildcard $(SRCS_DIR)/*.c $(MAN_DIR)/main.c)
 OBJS		=	$(SRCS:.c=.o)
 
 BONUS		=	pipex_bonus
-
 BONUS_DIR	=	$(SRCS_DIR)/bonus
-BONUS_SRCS	=	$(wildcard $(BONUS_DIR)/*.c $(UTILS_DIR)/*.c)
+BONUS_SRCS	=	$(wildcard $(SRCS_DIR)/*.c $(BONUS_DIR)/main.c)
 BONUS_OBJS	=	$(BONUS_SRCS:.c=.o)
 
 RESET		=	\033[0m
@@ -42,7 +42,7 @@ $(NAME): $(OBJS)
 	@$(MAKE) -C $(LIB_DIR)
 	@echo "$(BOLD)$(LIGHT_BLUE)Compile $(NAME)...$(RESET)"
 	@$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIB_DIR)/$(LIB) -o $(NAME)
-	@echo "$(BOLD)$(LIGHT_BLUE)Compile $(NAME) Complete!$(RESET)"\
+	@echo "$(BOLD)$(LIGHT_BLUE)Compile $(NAME) Complete!$(RESET)"
 
 clean:
 	@echo "$(BOLD)$(LIGHT_BLUE)Cleaning $(NAME)...$(RESET)"

@@ -2,13 +2,11 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	int		ret;
+	int	ret;
 
-	ret = 0;
-	// if (argc != 5) man
-	if (argc < 5)
+	if (argc != 5)
 	{
-		ft_dprintf(STDERR_FILENO, "Error:  Invalid number of arguments\n");
+		ft_dprintf(STDERR_FILENO, "Error: Invalid number of arguments\n");
 		return (EXIT_FAILURE);
 	}
 	ret = ft_pipex(argc, argv, envp);
