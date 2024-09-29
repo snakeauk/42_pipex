@@ -14,7 +14,7 @@
 
 void	ft_array_free(char **array);
 void	ft_execute(char *command, char **envp);
-void	ft_pipex(int argc, char **argv, char **envp);
+int		ft_pipex(int argc, char **argv, char **envp);
 int		ft_dup2(int fildes, int fildes2);
 int 	ft_access(char *path);
 char	*ft_get_path(char *cmd, char **envp);
