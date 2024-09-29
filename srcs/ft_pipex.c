@@ -98,6 +98,7 @@ void	ft_waitpid(pid_t *pids, int size, int *status)
         waitpid(pids[index], status, 0);
         index++;
     }
+	free(pids);
 }
 
 int ft_pipex(int argc, char **argv, char **env)
@@ -129,6 +130,5 @@ int ft_pipex(int argc, char **argv, char **env)
     ft_close_pipe(pipes, argc - 4);
 	ft_waitpid(pids, argc - 3, &status);
     ft_int_array_free(pipes);
-    free(pids);
     return (status);
 }
