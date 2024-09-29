@@ -1,14 +1,15 @@
 #include "pipex.h"
 
-int	main(int argc, char **argv, char **envp)
+int main(int argc, char **argv, char **envp)
 {
-	int	ret;
+    int     ret;
+    char    **env;
 
-	if (argc != 5)
-	{
-		ft_dprintf(STDERR_FILENO, "Error: Invalid number of arguments\n");
-		return (EXIT_FAILURE);
-	}
-	ret = ft_pipex(argc, argv, envp);
-	return (ret);
+    if (argc != 5)
+        ft_exit(EXIT_FAILURE, "Error: Invalid number of arguments");
+    env = ft_env(envp);
+    if (!env)
+        ft_exit(EXIT_FAILURE, "Error: PATH not found in environment variables");
+    ret = ft_pipex(argc, argv, env);
+    return (ret);
 }

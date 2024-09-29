@@ -12,6 +12,14 @@
 
 #define READ_SIZE 1
 
-int	ft_pipex(int argc, char **argv, char **envp);
+int 	ft_access(char *filepath);
+int		ft_pipex(int argc, char **argv, char **envp);
+char    **ft_env(char **envp);
+void	ft_exit(int status, char *message);
+void	ft_execute(char *command, char **env);
+char	*ft_get_path(char *cmd, char **env);
+void 	ft_int_array_free(int **array);
+void	ft_char_array_free(char **array);
+int		ft_here_doc(int argc, char **argv, char **env);
 
 #endif

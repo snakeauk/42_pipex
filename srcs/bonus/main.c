@@ -2,13 +2,21 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	int	ret;
+	int		ret;
+	char	**env;
 
 	if (argc < 5)
+		ft_exit(EXIT_FAILURE, "Error: Invalid number of arguments");
+    env = ft_env(envp);
+    if (!env)
+        ft_exit(EXIT_FAILURE, "Error: PATH not found in environment variables");
+    if (ft_strncmp(argv[1], "here_doc", 8) == 0 && ft_strlen(argv[1]) == 8)
 	{
-		ft_dprintf(STDERR_FILENO, "Error: Invalid number of arguments\n");
-		return (EXIT_FAILURE);
+		if (argc < 6)
+			ft_exit(EXIT_FAILURE, "Error: Invalid number of arguments");
+		ret = ft_here_doc(argc, argv, env);
 	}
-	ret = ft_pipex(argc, argv, envp);
+	else
+		ret = ft_pipex(argc, argv, env);
 	return (ret);
 }
