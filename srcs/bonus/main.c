@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/14 11:38:00 by kinamura          #+#    #+#             */
+/*   Updated: 2024/10/14 11:38:01 by kinamura         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex_bonus.h"
 
 int	main(int argc, char **argv, char **envp)
@@ -7,10 +19,10 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc < 5)
 		ft_exit(EXIT_FAILURE, "Error: Invalid number of arguments");
-    env = ft_env(envp);
-    if (!env)
-        ft_exit(EXIT_FAILURE, "Error: PATH not found in environment variables");
-    if (ft_strncmp(argv[1], "here_doc", 8) == 0 && ft_strlen(argv[1]) == 8)
+	env = ft_env(envp);
+	if (!env)
+		ft_exit(EXIT_FAILURE, "Error: PATH not found in environment variables");
+	if (ft_strncmp(argv[1], "here_doc", 8) == 0 && ft_strlen(argv[1]) == 8)
 	{
 		if (argc < 6)
 			ft_exit(EXIT_FAILURE, "Error: Invalid number of arguments");

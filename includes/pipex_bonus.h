@@ -16,6 +16,6 @@
 # include "ft_utils.h"
 
 // pipex_bonus.c
-int 	main(int argc, char **argv, char **envp);
+int	main(int argc, char **argv, char **envp);
 
 #endif
