@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 02:51:17 by kinamura          #+#    #+#             */
-/*   Updated: 2024/10/30 02:53:44 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/10/30 02:56:47 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static int	create_command(char **cmd, char **bin_paths)
 		command = ft_strjoin(bin_paths[index], *cmd);
 		if (!command)
 		{
-			perror("ERROR occurred when creating command path");
+			perror("command path");
 			return (ERROR);
 		}
 		if (access(command, X_OK) == 0)

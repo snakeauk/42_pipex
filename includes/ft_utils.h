@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 00:35:51 by kinamura          #+#    #+#             */
-/*   Updated: 2024/10/30 02:52:06 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/10/30 02:55:37 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "libft.h"
 # include "get_next_line.h"
 # include "ft_printf.h"
+# include <unistd.h>
 # include <errno.h>
 # include <fcntl.h>
 # include <stdio.h>
