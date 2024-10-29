@@ -1,4 +1,5 @@
 NAME		=	pipex
+BONUS		=	pipex_bonus
 
 CC			=	cc
 CFLAGS		=	-Wall -Wextra -Werror
@@ -11,15 +12,18 @@ LIB_DIR		=	./lib
 INCLUDES	=	-I ./includes -I $(LIB_DIR)/includes
 
 UTILS_DIR	=	$(SRCS_DIR)/utils
+UTILS_SRCS	=	$(UTILS_DIR)/command.c \
+				$(UTILS_DIR)/dup.c \
+				$(UTILS_DIR)/fork.c \
+				$(UTILS_DIR)/utils.c
 
 SRCS_DIR	=	./srcs
-SRCS		=	$(wildcard $(SRCS_DIR)/*.c $(UTILS_DIR)/*.c)
+SRCS		=	$(SRCS_DIR)/main.c $(UTILS_SRCS)
 OBJS		=	$(SRCS:.c=.o)
 
-BONUS		=	pipex_bonus
 
 BONUS_DIR	=	$(SRCS_DIR)/bonus
-BONUS_SRCS	=	$(wildcard $(BONUS_DIR)/*.c $(UTILS_DIR)/*.c)
+BONUS_SRCS	=	$(BONUS_DIR)/main.c $(UTILS_SRCS)
 BONUS_OBJS	=	$(BONUS_SRCS:.c=.o)
 
 RESET		=	\033[0m
@@ -39,10 +43,10 @@ all: $(NAME)
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(NAME): $(OBJS)
-	@$(MAKE) -C $(LIB_DIR)
 	@echo "$(BOLD)$(LIGHT_BLUE)Compile $(NAME)...$(RESET)"
+	@$(MAKE) -C $(LIB_DIR)
 	@$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIB_DIR)/$(LIB) -o $(NAME)
-	@echo "$(BOLD)$(LIGHT_BLUE)Compile $(NAME) Complete!$(RESET)"\
+	@echo "$(BOLD)$(LIGHT_BLUE)Compile $(NAME) Complete!$(RESET)"
 
 clean:
 	@echo "$(BOLD)$(LIGHT_BLUE)Cleaning $(NAME)...$(RESET)"
@@ -50,15 +54,17 @@ clean:
 	@$(RM) $(OBJS) $(BONUS_OBJS)
 	@echo "$(BOLD)$(LIGHT_BLUE)Cleaning $(NAME) Complete!$(RESET)"
 
-fclean: clean
-	@$(MAKE) fclean -C $(LIB_DIR)
+fclean:
 	@echo "$(BOLD)$(LIGHT_BLUE)ALL Cleaning $(NAME)...$(RESET)"
-	@$(RM) $(NAME) $(BONUS)
+	@$(MAKE) fclean -C $(LIB_DIR)
+	@$(RM) $(NAME) $(BONUS) $(OBJS) $(BONUS_OBJS)
 	@echo "$(BOLD)$(LIGHT_BLUE)ALL Cleaning $(NAME) Complete!$(RESET)"
 
-bonus: fclean $(BONUS_OBJS) $(OBJS)
-	@$(MAKE) -C $(LIB_DIR)
+bonus: $(BONUS)
+
+$(BONUS): $(BONUS_OBJS)
 	@echo "$(BOLD)$(LIGHT_BLUE)Compile $(BONUS)...$(RESET)"
+	@$(MAKE) -C $(LIB_DIR)
 	@$(CC) $(CFLAGS) $(INCLUDES) $(BONUS_OBJS) $(LIB_DIR)/$(LIB) -o $(BONUS)
 	@echo "$(BOLD)$(LIGHT_BLUE)Compile $(BONUS) Complete!$(RESET)"
 

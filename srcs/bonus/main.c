@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 02:54:16 by kinamura          #+#    #+#             */
-/*   Updated: 2024/10/30 02:54:18 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/10/30 03:55:18 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(int argc, char **argv, char **env)
 	pid_t	pid;
 
 	if (argc < 5)
-		return (EXIT_FAILURE);
+		ft_error(EXIT_FAILURE, "Error: Invalid number of arguments\n");
 	num_cmds = argc - 3;
 	info.here_doc = (argc > 1 && ft_strncmp(argv[1], "here_doc", 9) == 0);
 	if (info.here_doc)
