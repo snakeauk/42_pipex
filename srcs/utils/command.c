@@ -14,7 +14,7 @@ char	***cmd_split(size_t size, char **argv)
 
 	cmds = (char ***)malloc((size + 1) * sizeof(char **));
 	if (!cmds)
-		ft_exit_message("Error: cmds malloc\n");
+		ft_exit_message("Error: cmds malloc");
 	index = 0;
 	while (index < size)
 	{
@@ -23,7 +23,7 @@ char	***cmd_split(size_t size, char **argv)
 		{
 			cmds[index + 1] = NULL;
 			ft_free_array3((void ***)cmds);
-			ft_exit_message("Error: cmd split\n");
+			ft_exit_message("Error: cmd split");
 		}
 		index++;
 	}
