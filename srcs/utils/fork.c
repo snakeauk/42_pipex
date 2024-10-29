@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 02:51:30 by kinamura          #+#    #+#             */
-/*   Updated: 2024/10/30 02:55:05 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/10/30 03:21:21 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,6 @@ static int	here_doc(t_pipe *data)
 	size_t	len;
 
 	len = ft_strlen(data->limit);
-	char ***cmd_split(size_t size, char **argv);
-	char *get_env_path(char **envp);
-	char **get_bin_paths(char **env);
-	int create_command(char **cmd, char **bin_paths);
-	void set_cmd_path(char ***cmds, char **envp);
 	while (get_next_line(STDIN_FILENO, &line))
 	{
 		if (ft_strncmp(line, data->limit, len) == 0 && line[len] == '\n')
