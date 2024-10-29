@@ -1,11 +1,16 @@
-#include "ft_utils.h"
-#include <unistd.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   command.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/30 02:51:17 by kinamura          #+#    #+#             */
+/*   Updated: 2024/10/30 02:53:44 by kinamura         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-char	***cmd_split(size_t size, char **argv);
-char	*get_env_path(char **envp);
-char	**get_bin_paths(char **env);
-int		create_command(char **cmd, char **bin_paths);
-void	set_cmd_path(char ***cmds, char **envp);
+#include "ft_utils.h"
 
 char	***cmd_split(size_t size, char **argv)
 {
@@ -31,7 +36,7 @@ char	***cmd_split(size_t size, char **argv)
 	return (cmds);
 }
 
-char	*get_env_path(char **envp)
+static char	*get_env_path(char **envp)
 {
 	size_t	index;
 
@@ -46,7 +51,7 @@ char	*get_env_path(char **envp)
 	return (NULL);
 }
 
-char	**get_bin_paths(char **envp)
+static char	**get_bin_paths(char **envp)
 {
 	char	**bin_paths;
 	char	*env_path;
@@ -75,7 +80,7 @@ char	**get_bin_paths(char **envp)
 	return (bin_paths);
 }
 
-int	create_command(char **cmd, char **bin_paths)
+static int	create_command(char **cmd, char **bin_paths)
 {
 	char	*command;
 	size_t	index;
