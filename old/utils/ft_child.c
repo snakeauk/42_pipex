@@ -1,27 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_child.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/14 11:38:03 by kinamura          #+#    #+#             */
-/*   Updated: 2024/10/14 11:41:16 by kinamura         ###   ########.fr       */
+/*   Created: 2024/09/04 01:39:02 by kinamura          #+#    #+#             */
+/*   Updated: 2024/09/18 21:42:38 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "ft_utils.h"
 
-int	main(int argc, char **argv, char **envp)
+void	ft_child(char *cmd, char **envp, int *fd)
 {
-	int		ret;
-	char	**env;
-
-	if (argc != 5)
-		ft_exit(EXIT_FAILURE, "Error: Invalid number of arguments");
-	env = ft_env(envp);
-	if (!env)
-		ft_exit(EXIT_FAILURE, "Error: PATH not found in environment variables");
-	ret = ft_pipex(argc, argv, env);
-	return (ret);
+	ft_dup2(fd[1], STDOUT_FILENO);
+	close(fd[1]);
+	close(fd[0]);
+	ft_execute(cmd, envp);
 }

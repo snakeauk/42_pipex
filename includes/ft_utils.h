@@ -5,34 +5,48 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/14 11:40:18 by kinamura          #+#    #+#             */
-/*   Updated: 2024/10/14 11:40:19 by kinamura         ###   ########.fr       */
+/*   Created: 2024/09/03 00:35:51 by kinamura          #+#    #+#             */
+/*   Updated: 2024/10/30 02:00:03 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_UTILS_H
 # define FT_UTILS_H
 
-# include "ft_printf.h"
-# include "get_next_line.h"
 # include "libft.h"
+# include "get_next_line.h"
+# include "ft_printf.h"
+# include <errno.h>
 # include <fcntl.h>
 # include <stdio.h>
-# include <stdlib.h>
 # include <sys/wait.h>
-# include <unistd.h>
 
-# define READ_SIZE 1
+# define ERROR -1
 
-int		ft_access(char *filepath);
-int		ft_pipex(int argc, char **argv, char **envp);
-char	**ft_env(char **envp);
-void	ft_exit(int status, char *message);
-void	ft_execute(char *command, char **env);
-char	*ft_get_path(char *cmd, char **env);
-void	ft_int_array_free(int **array);
-void	ft_char_array_free(char **array);
-int		ft_here_doc(int argc, char **argv, char **env);
-void	ft_stdio(int argc, char **argv, int **pipes, int index);
+typedef struct s_pipe
+{
+	char	***cmds;
+	int		pipe[2];
+	int		here_doc;
+	char	*limit;
+	char	*infile;
+	char	*outfile;
+}			t_pipe;
+
+// dup.c
+int			ft_iodup(int infile, int outfile);
+
+// utils.c
+void	ft_free_array3(void ***array);
+void	ft_free_array2(void **array);
+void	ft_wait_free_exit(char ***cmds, int exit_status);
+void	ft_exit_message(char *message);
+
+// ft_fork.c
+pid_t		ft_fork(t_pipe *data, size_t num_childs, char **env);
+
+// command.c
+char		***cmd_split(size_t size, char **argv);
+void		set_cmd_path(char ***cmds, char **env);
 
 #endif

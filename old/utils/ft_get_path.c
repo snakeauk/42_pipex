@@ -1,41 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_execute.c                                       :+:      :+:    :+:   */
+/*   ft_get_path.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/14 11:38:15 by kinamura          #+#    #+#             */
-/*   Updated: 2024/10/14 11:43:26 by kinamura         ###   ########.fr       */
+/*   Created: 2024/09/02 21:25:46 by kinamura          #+#    #+#             */
+/*   Updated: 2024/09/14 17:33:38 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_utils.h"
 
-void	ft_execute(char *command, char **env)
+char	*ft_get_path(char *cmd, char **envp)
 {
-	char	**cmd;
+	char	**paths;
 	char	*path;
+	char	*part_path;
+	int		index;
 
-	cmd = ft_split(command, ' ');
-	if (!cmd || !cmd[0])
+	index = 0;
+	while (ft_strnstr(envp[index], "PATH", 4) == 0)
+		index++;
+	paths = ft_split(envp[index] + 5, ':');
+	index = -1;
+	while (paths[++index])
 	{
-		ft_char_array_free(cmd);
-		perror("Error: command parsing failed");
-		exit(EXIT_FAILURE);
-	}
-	path = ft_get_path(cmd[0], env);
-	if (!path)
-	{
-		fprintf(stderr, "%s: command not found\n", cmd[0]);
-		ft_char_array_free(cmd);
-		exit(EXIT_FAILURE);
-	}
-	if (execve(path, cmd, env) == -1)
-	{
-		perror("Error");
-		ft_char_array_free(cmd);
+		part_path = ft_strjoin(paths[index], "/");
+		path = ft_strjoin(part_path, cmd);
+		free(part_path);
+		if (access(path, F_OK) == 0)
+		{
+			ft_array_free(paths);
+			return (path);
+		}
 		free(path);
-		exit(128);
 	}
+	ft_array_free(paths);
+	return (NULL);
 }

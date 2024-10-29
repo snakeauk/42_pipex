@@ -1,4 +1,4 @@
-#include "pipex_bonus.h"
+#include "pipex.h"
 
 int	main(int argc, char **argv, char **env)
 {
@@ -7,7 +7,7 @@ int	main(int argc, char **argv, char **env)
 	int			stat_loc;
 	pid_t		pid;
 
-	if (argc < 5)
+	if (argc != 5)
 		return (EXIT_FAILURE);
 	num_cmds = argc - 3;
 	info.here_doc = (argc > 1 && ft_strncmp(argv[1], "here_doc", 9) == 0);

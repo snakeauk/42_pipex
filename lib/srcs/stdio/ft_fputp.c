@@ -15,7 +15,7 @@
 int	ft_fputp(unsigned long long unum, int fd)
 {
 	size_t	ret;
-	int		w_ret;
+	size_t	w_ret;
 	char	*str;
 
 	ret = 0;

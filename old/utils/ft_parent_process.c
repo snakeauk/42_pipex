@@ -1,39 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_array_free.c                                    :+:      :+:    :+:   */
+/*   ft_parent_process.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/14 11:38:09 by kinamura          #+#    #+#             */
-/*   Updated: 2024/10/14 11:38:11 by kinamura         ###   ########.fr       */
+/*   Created: 2024/09/07 13:50:09 by kinamura          #+#    #+#             */
+/*   Updated: 2024/09/18 23:47:35 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_utils.h"
+#include "pipex.h"
 
-void	ft_int_array_free(int **array)
+void	ft_parent_process(pid_t pid, int *fd)
 {
-	int	index;
-
-	index = 0;
-	while (array[index])
-	{
-		free(array[index]);
-		index++;
-	}
-	free(array);
-}
-
-void	ft_char_array_free(char **array)
-{
-	int	index;
-
-	index = 0;
-	while (array[index])
-	{
-		free(array[index]);
-		index++;
-	}
-	free(array);
+	if (waitpid(pid, NULL, 0) == -1)
+		ft_error("Error: waitpid failed\n");
+	if (dup2(fd[0], STDIN_FILENO) == -1)
+		ft_error("Error: dup2 failed for stdin\n");
 }
