@@ -43,11 +43,11 @@ static int	here_doc(t_pipe *data)
 	size_t	len;
 
 	len = ft_strlen(data->limit);
-char	***cmd_split(size_t size, char **argv);
-char	*get_env_path(char **envp);
-char	**get_bin_paths(char **env);
-int		create_command(char **cmd, char **bin_paths);
-void	set_cmd_path(char ***cmds, char **envp);
+	char ***cmd_split(size_t size, char **argv);
+	char *get_env_path(char **envp);
+	char **get_bin_paths(char **env);
+	int create_command(char **cmd, char **bin_paths);
+	void set_cmd_path(char ***cmds, char **envp);
 	while (get_next_line(STDIN_FILENO, &line))
 	{
 		if (ft_strncmp(line, data->limit, len) == 0 && line[len] == '\n')

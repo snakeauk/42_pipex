@@ -70,7 +70,7 @@ static char	**get_bin_paths(char **envp)
 		temp = ft_strjoin(bin_paths[i], "/");
 		if (!temp)
 		{
-			ft_free_array2((void **) bin_paths);
+			ft_free_array2((void **)bin_paths);
 			return (NULL);
 		}
 		free(bin_paths[i]);
@@ -114,7 +114,7 @@ void	set_cmd_path(char ***cmds, char **envp)
 	bin_paths = get_bin_paths(envp);
 	if (!bin_paths)
 	{
-		ft_free_array3((void ***) cmds);
+		ft_free_array3((void ***)cmds);
 		exit(EXIT_FAILURE);
 	}
 	index = 0;
@@ -126,7 +126,7 @@ void	set_cmd_path(char ***cmds, char **envp)
 			{
 				ft_free_array3((void ***)cmds);
 				ft_free_array2((void **)bin_paths);
-				exit (EXIT_FAILURE);
+				exit(EXIT_FAILURE);
 			}
 		}
 		index++;

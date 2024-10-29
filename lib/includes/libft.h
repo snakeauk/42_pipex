@@ -13,14 +13,14 @@
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# include "ft_printf.h"
+# include <fcntl.h>
 # include <limits.h>
 # include <stddef.h>
+# include <stdint.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <stdint.h>
-# include <fcntl.h>
-# include <stdio.h>
-# include "ft_printf.h"
 
 typedef struct s_list
 {

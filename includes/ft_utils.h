@@ -13,14 +13,14 @@
 #ifndef FT_UTILS_H
 # define FT_UTILS_H
 
-# include "libft.h"
-# include "get_next_line.h"
 # include "ft_printf.h"
-# include <unistd.h>
+# include "get_next_line.h"
+# include "libft.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <stdio.h>
 # include <sys/wait.h>
+# include <unistd.h>
 
 # define ERROR -1
 
@@ -38,10 +38,10 @@ typedef struct s_pipe
 int			ft_iodup(int infile, int outfile);
 
 // utils.c
-void	ft_free_array3(void ***array);
-void	ft_free_array2(void **array);
-void	ft_wait_free_exit(char ***cmds, int exit_status);
-void	ft_exit_message(char *message);
+void		ft_free_array3(void ***array);
+void		ft_free_array2(void **array);
+void		ft_wait_free_exit(char ***cmds, int exit_status);
+void		ft_exit_message(char *message);
 
 // ft_fork.c
 pid_t		ft_fork(t_pipe *data, size_t num_childs, char **env);

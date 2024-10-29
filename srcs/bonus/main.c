@@ -15,9 +15,9 @@
 int	main(int argc, char **argv, char **env)
 {
 	t_pipe	info;
-	int			num_cmds;
-	int			stat_loc;
-	pid_t		pid;
+	int		num_cmds;
+	int		stat_loc;
+	pid_t	pid;
 
 	if (argc < 5)
 		return (EXIT_FAILURE);
