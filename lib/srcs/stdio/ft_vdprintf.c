@@ -23,7 +23,7 @@ int	ft_vdprintf(int fd, const char *format, va_list ap)
 		if (*format == '%')
 		{
 			format++;
-			w_ret = ft_printf_switch(format, &ap, fd);
+			w_ret = ft_printf_switch(format, ap, fd);
 			if (w_ret < 0)
 				return (-1);
 			ret += w_ret;

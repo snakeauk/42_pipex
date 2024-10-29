@@ -35,7 +35,7 @@ char	*ft_ulltoa_base(unsigned long long unum, char *base);
 size_t	ft_uisize(unsigned int n, int base);
 size_t	ft_isize(int num, int base);
 size_t	ft_ullsize(unsigned long long unum, char *base);
-int		ft_printf_switch(const char *format, va_list *ap, int fd);
+int		ft_printf_switch(const char *format, va_list ap, int fd);
 int		ft_vdprintf(int fd, const char *format, va_list ap);
 int		ft_vprintf(const char *format, va_list ap);
 int		ft_dprintf(int fd, const char *format, ...);
