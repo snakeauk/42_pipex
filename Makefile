@@ -5,26 +5,27 @@ CC			=	cc
 CFLAGS		=	-Wall -Wextra -Werror
 RM			=	rm -rf
 
-LIB			=	lib.a
-
-LIB_DIR		=	./lib
-
-INCLUDES	=	-I ./includes -I $(LIB_DIR)/includes
-
-UTILS_DIR	=	$(SRCS_DIR)/utils
-UTILS_SRCS	=	$(UTILS_DIR)/command.c \
-				$(UTILS_DIR)/dup.c \
-				$(UTILS_DIR)/fork.c \
-				$(UTILS_DIR)/utils.c
+LIBFT		=	libft
+LIBFT_A		=	$(LIBFT).a
+LIBFT_DIR	=	./$(LIBFT)
 
 SRCS_DIR	=	./srcs
-SRCS		=	$(SRCS_DIR)/main.c $(UTILS_SRCS)
+UTILS_DIR	=	$(SRCS_DIR)/utils
+SRCS		=	$(wildcard $(UTILS_DIR)/*.c $(SRCS_DIR)/*.c)
 OBJS		=	$(SRCS:.c=.o)
 
-
-BONUS_DIR	=	$(SRCS_DIR)/bonus
-BONUS_SRCS	=	$(BONUS_DIR)/main.c $(UTILS_SRCS)
+BONUS_DIR	=	./srcs/bonus
+BONUS_SRCS	=	$(wildcard $(UTILS_DIR)/*.c $(BONUS_DIR)/*.c)
 BONUS_OBJS	=	$(BONUS_SRCS:.c=.o)
+
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S), Darwin)
+	OS_DIR		=	$(LIBFT_DIR)/mac
+else
+	OS_DIR		=	$(LIBFT_DIR)/linux
+endif
+
+INCLUDES	=	-I ./includes -I $(LIBFT_DIR)/includes -I $(OS_DIR)/includes
 
 RESET		=	\033[0m
 BOLD		=	\033[1m
@@ -39,33 +40,33 @@ MAKEFLAGS	+=	--no-print-directory
 
 all: $(NAME)
 
+$(NAME): $(OBJS)
+	@echo "$(BOLD)$(LIGHT_BLUE)Compile $(NAME)...$(RESET)"
+	@echo "$(BOLD)$(LIGHT_BLUE)Create $(LIBFT)...$(RESET)"
+	@$(MAKE) -C $(LIBFT_DIR)
+	@echo "$(BOLD)$(LIGHT_BLUE)Compile now...$(RESET)"
+	@$(CC) $(CFLAG) $(INCLUDES) $(OBJS) $(LIBFT_DIR)/$(LIBFT_A) -o $(NAME)
+	@echo "$(BOLD)$(LIGHT_BLUE)Compile $(NAME) Complete!$(RESET)"
+
 .c.o:
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-$(NAME): $(OBJS)
-	@echo "$(BOLD)$(LIGHT_BLUE)Compile $(NAME)...$(RESET)"
-	@$(MAKE) -C $(LIB_DIR)
-	@$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIB_DIR)/$(LIB) -o $(NAME)
-	@echo "$(BOLD)$(LIGHT_BLUE)Compile $(NAME) Complete!$(RESET)"
-
 clean:
 	@echo "$(BOLD)$(LIGHT_BLUE)Cleaning $(NAME)...$(RESET)"
-	@$(MAKE) clean -C $(LIB_DIR)
+	@$(MAKE) clean -C $(LIBFT_DIR)
 	@$(RM) $(OBJS) $(BONUS_OBJS)
 	@echo "$(BOLD)$(LIGHT_BLUE)Cleaning $(NAME) Complete!$(RESET)"
 
 fclean:
 	@echo "$(BOLD)$(LIGHT_BLUE)ALL Cleaning $(NAME)...$(RESET)"
-	@$(MAKE) fclean -C $(LIB_DIR)
-	@$(RM) $(NAME) $(BONUS) $(OBJS) $(BONUS_OBJS)
+	@$(MAKE) fclean -C $(LIBFT_DIR)
+	@$(RM) $(OBJS) $(BONUS_OBJS) $(NAME) $(BONUS)
 	@echo "$(BOLD)$(LIGHT_BLUE)ALL Cleaning $(NAME) Complete!$(RESET)"
 
-bonus: $(BONUS)
-
-$(BONUS): $(BONUS_OBJS)
+bonus: fclean $(BONUS_OBJS) $(OBJS)
 	@echo "$(BOLD)$(LIGHT_BLUE)Compile $(BONUS)...$(RESET)"
-	@$(MAKE) -C $(LIB_DIR)
-	@$(CC) $(CFLAGS) $(INCLUDES) $(BONUS_OBJS) $(LIB_DIR)/$(LIB) -o $(BONUS)
+	@$(MAKE) -C $(LIBFT_DIR)
+	@$(CC) $(CFLAG) $(INCLUDES) $(BONUS_OBJS) $(LIBFT_DIR)/$(LIBFT_A) -o $(BONUS)
 	@echo "$(BOLD)$(LIGHT_BLUE)Compile $(BONUS) Complete!$(RESET)"
 
 re: fclean all
