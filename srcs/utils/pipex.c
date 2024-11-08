@@ -18,11 +18,12 @@ t_pipe	*init_pipe(int argc, char **argv, char **envp, char **commands)
 	}
 	pipe->argc = argc;
 	pipe->argv = argv;
-	pipe->infile = -1;
-	pipe->outfile = -1;
 	pipe->cmd_list = commands;
 	pipe->cmd_index = 0;
-	pipe->cmd_limit = argc - 3;
+	if (is_here_doc(argv))
+		pipe->cmd_limit = argc - 4;
+	else
+		pipe->cmd_limit = argc - 3;
 	pipe->status = EXIT_SUCCESS;
 	return (pipe);
 }

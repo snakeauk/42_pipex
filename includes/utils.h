@@ -13,9 +13,6 @@ typedef struct	s_pipe
 	int		argc;
 	char	**argv;
 	char	*env;
-	int		infile;
-	int		outfile;
-	int		pipe[2];
 	char	**cmd_list;
 	size_t	cmd_index;
 	size_t	cmd_limit;
@@ -25,5 +22,6 @@ typedef struct	s_pipe
 char	*get_env_path(char **envp);
 char	**ft_split_cmd(int argc, char **argv);
 int		is_here_doc(char **argv);
+int		pipex(int argc, char **argv, char **envp, char **commands);
 
 #endif
