@@ -7,8 +7,8 @@ int	ft_fork(t_pipe *data);
 
 int	*create_pipes(t_pipe *data)
 {
-	int		index;
-	int		*pipefd;
+	int	index;
+	int	*pipefd;
 
 	index = 0;
 	pipefd = (int *)malloc(sizeof(int) * data->cmd_size - 1);
@@ -47,7 +47,7 @@ int	close_pipes(int *pipefd, t_pipe *data)
 int	ft_wait(t_pipe *data)
 {
 	int	index;
-	int s;
+	int	s;
 	int	status;
 
 	index = 0;
@@ -64,8 +64,8 @@ int	ft_wait(t_pipe *data)
 
 int	ft_fork(t_pipe *data)
 {
-	int		status;
-	int		*pipefd;
+	int	status;
+	int	*pipefd;
 
 	pipefd = create_pipes(data);
 	if (!pipefd)

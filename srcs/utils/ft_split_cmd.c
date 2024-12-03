@@ -2,7 +2,7 @@
 
 char	**ft_split_cmd(int argc, char **argv)
 {
-	char 	**cmd_list;
+	char	**cmd_list;
 	int		index;
 	int		cmd_index;
 

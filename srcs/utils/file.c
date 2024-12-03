@@ -4,9 +4,9 @@ int	file_open(int argc, char **argv, t_pipe *data);
 
 int	file_open(int argc, char **argv, t_pipe *data)
 {
-    int status;
+	int	status;
 
-    status = EXIT_SUCCESS;
+	status = EXIT_SUCCESS;
 	if (is_here_doc(argv))
 	{
 		status = here_doc(argv[2], data);

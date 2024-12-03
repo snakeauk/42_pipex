@@ -1,6 +1,6 @@
 #include "utils.h"
 
-int	pipex(int argc, char **argv, char **envp, char **cmd_list);
+int		pipex(int argc, char **argv, char **envp, char **cmd_list);
 t_pipe	init_pipe(int argc, char **argv, char **envp, char **cmd_list);
 
 t_pipe	init_pipe(int argc, char **argv, char **envp, char **cmd_list)
