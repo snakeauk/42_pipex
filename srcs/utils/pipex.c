@@ -30,9 +30,9 @@ int	pipex(int argc, char **argv, char **envp, char **cmd_list)
 		return (EXIT_FAILURE);
 	status[0] = file_open(argc, argv, &data);
 	status[1] = ft_fork(&data);
-	if (status[1] != EXIT_SUCCESS)
-		return (status[1]);
 	if (is_here_doc(argv))
 		unlink(HEREDOC_TMP_FILE);
+	if (status[1] != EXIT_SUCCESS)
+		return (status[1]);
 	return (status[0]);
 }

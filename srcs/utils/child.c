@@ -14,17 +14,13 @@ char	*get_command(char **paths, char *cmd)
 		cmd_path = ft_strjoin(*paths, "/");
 		command = ft_strjoin(cmd_path, cmd);
 		free(cmd_path);
-		if (access(command, F_OK) == 0)
-		{
+		if ((access(command, F_OK) == 0) && (access(command, X_OK) == 0))
 			return (command);
+		else if ((access(command, F_OK) == 0) && (access(command, X_OK) < 0))
+		{
+			ft_dprintf(STDERR_FILENO, strerror(13));
+			return (NULL);
 		}
-		// if ((access(command, F_OK) == 0) && (access(command, X_OK) == 0))
-		// 	return (command);
-		// else if ((access(command, F_OK) == 0) && (access(command, X_OK) < 0))
-		// {
-		// 	ft_dprintf(STDERR_FILENO, strerror(13));
-		// 	return (NULL);
-		// }
 		free(command);
 		paths++;
 	}
@@ -62,8 +58,8 @@ void	child(t_pipe *data, int *pipefd)
         cmd_paths = ft_split(data->env, ':');
 		cmd_path = get_command(cmd_paths, data->cmd[0]);
 		if (!cmd_path)
-			exit(127);
+			exit(128);
 		execve(cmd_path, data->cmd, data->envp);
-        exit(127);
+        exit(128);
 	}
 }
