@@ -2,15 +2,11 @@
 
 char	*get_env_path(char **envp)
 {
-	size_t	index;
-
-	index = 0;
-	while (envp && envp[index])
-	{
-		if (ft_strnstr(envp[index], "PATH=", 5) != NULL)
-			return (envp[index]);
-		index++;
-	}
-	ft_dprintf(STDERR_FILENO, "Error: PATH not find\n");
-	return (NULL);
+	if (!envp)
+		return (NULL);
+	while (*envp && ft_strncmp("PATH=", *envp, 5))
+		envp++;
+	if (!*envp)
+		return (NULL);
+	return (*envp + 5);
 }

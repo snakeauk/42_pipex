@@ -1,48 +1,86 @@
 #include "utils.h"
 
-int	ft_wait(t_pipe *data, int status)
-{
-	int pre;
+int	*create_pipes(t_pipe *data);
+int	close_pipes(int *pipefd, t_pipe *data);
+int	ft_wait(t_pipe *data);
+int	ft_fork(t_pipe *data);
 
-	pre = status;
-	if (data->cmd_limit > 0)
+int	*create_pipes(t_pipe *data)
+{
+	int		index;
+	int		*pipefd;
+
+	index = 0;
+	pipefd = (int *)malloc(sizeof(int) * data->cmd_size - 1);
+	if (!pipefd)
+		return (NULL);
+	while (index < data->cmd_size - 1)
 	{
-		wait(&status);
-		data->cmd_limit--;
-		if (status != 0 || pre != 0)
-			return (ft_wait(data, status));
-		else
-			return (ft_wait(data, status));
+		if (pipe(pipefd + 2 * index) < 0)
+		{
+			perror("Error");
+			free(pipefd);
+			return (NULL);
+		}
+		index++;
 	}
-	return (status);
-	
+	return (pipefd);
 }
 
-int	ft_fork(t_pipe *data)
+int	close_pipes(int *pipefd, t_pipe *data)
 {
-	pid_t	pid;
-	int		pipefd[2];
-	int		status;
+	int	index;
 
-	if (pipe(pipefd) == -1)
-		return (EXIT_FAILURE);
-	while (data->cmd_index < data->cmd_limit)
+	index = 0;
+	while (index < data->cmd_size - 1)
 	{
-		pid = fork();
-		if (pid == -1)
+		if (close(pipefd[index]) < 0)
 		{
 			perror("Error");
 			return (EXIT_FAILURE);
 		}
-		if (pid == 0)
-		{
-			ft_dup(data);
-			ft_execve(data);
-		}
+		index++;
+	}
+	return (EXIT_SUCCESS);
+}
+
+int	ft_wait(t_pipe *data)
+{
+	int	index;
+	int s;
+	int	status;
+
+	index = 0;
+	status = EXIT_SUCCESS;
+	while (index < data->cmd_size)
+	{
+		wait(&s);
+		if (status == EXIT_SUCCESS)
+			status = s;
+		index++;
+	}
+	return (status);
+}
+
+int	ft_fork(t_pipe *data)
+{
+	int		status;
+	int		*pipefd;
+
+	pipefd = create_pipes(data);
+	if (!pipefd)
+		return (EXIT_FAILURE);
+	data->cmd_index = 0;
+	while (data->cmd_index < data->cmd_size)
+	{
+		data->cmd = ft_split(data->cmd_list[data->cmd_index], ' ');
+		child(data, pipefd);
+		free((void **)data->cmd);
 		data->cmd_index++;
 	}
-	close(pipefd[0]);
-	close(pipefd[1]);
-	status = ft_wait(data, 0);
+	status = close_pipes(pipefd, data);
+	if (status != EXIT_SUCCESS)
+		return (status);
+	status = ft_wait(data);
 	return (status);
 }

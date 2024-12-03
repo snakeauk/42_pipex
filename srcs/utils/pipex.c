@@ -5,40 +5,34 @@ t_pipe	init_pipe(int argc, char **argv, char **envp, char **cmd_list);
 
 t_pipe	init_pipe(int argc, char **argv, char **envp, char **cmd_list)
 {
-	t_pipe	*data;
+	t_pipe	data;
 
-	data = (t_pipe *)malloc(sizeof(t_pipe));
-	if (!data)
-	{
-		perror("Error");
-		return (NULL);
-	}
-	data->env = get_env_path(envp);
-	if (!data->env)
-	{
-		free(data);
-		return (NULL);
-	}
-	data->argc = argc;
-	data->argv = argv;
-	data->cmd_list = cmd_list;
-	data->cmd_index = 0;
+	data.env = get_env_path(envp);
+	data.argc = argc;
+	data.argv = argv;
+	data.envp = envp;
+	data.cmd_list = cmd_list;
+	data.cmd_index = 0;
 	if (is_here_doc(argv))
-		data->cmd_limit = argc - 4;
+		data.cmd_size = argc - 4;
 	else
-		data->cmd_limit = argc - 3;
+		data.cmd_size = argc - 3;
 	return (data);
 }
 
 int	pipex(int argc, char **argv, char **envp, char **cmd_list)
 {
 	t_pipe	data;
-	int		status;
+	int		status[2];
 
 	data = init_pipe(argc, argv, envp, cmd_list);
-	if (!data)
+	if (!data.env)
 		return (EXIT_FAILURE);
-	status = ft_fork(data);
-	free(data);
-	return (status);
+	status[0] = file_open(argc, argv, &data);
+	status[1] = ft_fork(&data);
+	if (status[1] != EXIT_SUCCESS)
+		return (status[1]);
+	if (is_here_doc(argv))
+		unlink(HEREDOC_TMP_FILE);
+	return (status[0]);
 }

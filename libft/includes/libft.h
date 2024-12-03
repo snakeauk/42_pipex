@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:45:34 by kinamura          #+#    #+#             */
-/*   Updated: 2024/12/03 16:22:55 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/12/03 16:35:30 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdint.h>
 # include <fcntl.h>
 # include <stdio.h>
+# include <errno.h>
 # include "get_next_line.h"
 
 typedef struct s_list

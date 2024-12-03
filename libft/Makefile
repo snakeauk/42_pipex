@@ -44,9 +44,7 @@ PRINTF_SRCS	=	$(PRINTF_DIR)/ft_dprintf.c \
 				$(PRINTF_DIR)/ft_vprintf.c
 
 OS_STDIO	=	$(OS_SRCS_DIR)/stdio
-OS_STD_SRCS	=	$(OS_STDIO)/ft_error.c \
-				$(OS_STDIO)/ft_exit_message.c \
-				$(OS_STDIO)/ft_fopen.c
+OS_STD_SRCS	=	$(OS_STDIO)/ft_error.c 
 
 OS_SRCS		=	$(PRINTF_SRCS) $(OS_STD_SRCS)
 
