@@ -57,7 +57,7 @@ void	child(t_pipe *data, int *pipefd)
 		close_pipes(pipefd, data);
         cmd_paths = ft_split(data->env, ':');
 		cmd_path = get_command(cmd_paths, data->cmd[0]);
-		if (!cmd_path)
+		if (!cmd_path || data->infile < 0 || data->outfile < 0)
 			exit(128);
 		execve(cmd_path, data->cmd, data->envp);
         exit(128);

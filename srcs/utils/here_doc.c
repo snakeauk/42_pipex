@@ -19,7 +19,7 @@ int		read_line(int fd, char *limit)
 	while (1)
 	{
 		write(STDOUT_FILENO, "> ", 2);
-		if (get_next_line(STDIN_FILENO, &line) < 0)
+		if (get_next_line(STDIN_FILENO, &line) <= 0)
 		{
 			status = EXIT_FAILURE;
 			break ;

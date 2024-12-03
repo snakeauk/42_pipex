@@ -6,6 +6,7 @@
 #include "ft_stdio.h"
 #include <errno.h>
 #include <string.h>
+#include <sys/wait.h>
 
 # define HEREDOC_TMP_FILE "/tmp/.heredoc_tmp"
 
