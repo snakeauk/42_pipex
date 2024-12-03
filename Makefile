@@ -11,11 +11,15 @@ LIBFT_DIR	=	./$(LIBFT)
 
 SRCS_DIR	=	./srcs
 UTILS_DIR	=	$(SRCS_DIR)/utils
-SRCS		=	$(wildcard $(UTILS_DIR)/*.c $(SRCS_DIR)/*.c)
-OBJS		=	$(SRCS:.c=.o)
+UTILS_SRCS	=	$(wildcard $(UTILS_DIR)/*.c)
+UTILS_OBJS	=	$(UTILS_SRCS:.c=.o)
 
-BONUS_DIR	=	./srcs/bonus
-BONUS_SRCS	=	$(wildcard $(UTILS_DIR)/*.c $(BONUS_DIR)/*.c)
+MAN_DIR		=	$(SRCS_DIR)/mandatory
+MAN_SRCS	=	$(MAN_DIR)/main.c
+MAN_OBJS	=	$(MAN_SRCS:.c=.o)
+
+BONUS_DIR	=	$(SRCS_DIR)/bonus
+BONUS_SRCS	=	$(BONUS_DIR)/main.c
 BONUS_OBJS	=	$(BONUS_SRCS:.c=.o)
 
 UNAME_S := $(shell uname -s)
@@ -40,12 +44,12 @@ MAKEFLAGS	+=	--no-print-directory
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
+$(NAME): $(UTILS_OBJS) $(MAN_OBJS)
 	@echo "$(BOLD)$(LIGHT_BLUE)Compile $(NAME)...$(RESET)"
 	@echo "$(BOLD)$(LIGHT_BLUE)Create $(LIBFT)...$(RESET)"
 	@$(MAKE) -C $(LIBFT_DIR)
 	@echo "$(BOLD)$(LIGHT_BLUE)Compile now...$(RESET)"
-	@$(CC) $(CFLAG) $(INCLUDES) $(OBJS) $(LIBFT_DIR)/$(LIBFT_A) -o $(NAME)
+	@$(CC) $(CFLAG) $(INCLUDES) $(UTILS_OBJS) $(MAN_OBJS) $(LIBFT_DIR)/$(LIBFT_A) -o $(NAME)
 	@echo "$(BOLD)$(LIGHT_BLUE)Compile $(NAME) Complete!$(RESET)"
 
 .c.o:
@@ -54,19 +58,19 @@ $(NAME): $(OBJS)
 clean:
 	@echo "$(BOLD)$(LIGHT_BLUE)Cleaning $(NAME)...$(RESET)"
 	@$(MAKE) clean -C $(LIBFT_DIR)
-	@$(RM) $(OBJS) $(BONUS_OBJS)
+	@$(RM) $(MAN_OBJS) $(BONUS_OBJS) $(UTILS_OBJS)
 	@echo "$(BOLD)$(LIGHT_BLUE)Cleaning $(NAME) Complete!$(RESET)"
 
 fclean:
 	@echo "$(BOLD)$(LIGHT_BLUE)ALL Cleaning $(NAME)...$(RESET)"
 	@$(MAKE) fclean -C $(LIBFT_DIR)
-	@$(RM) $(OBJS) $(BONUS_OBJS) $(NAME) $(BONUS)
+	@$(RM) $(MAN_OBJS) $(BONUS_OBJS) $(UTILS_OBJS) $(NAME) $(BONUS)
 	@echo "$(BOLD)$(LIGHT_BLUE)ALL Cleaning $(NAME) Complete!$(RESET)"
 
-bonus: fclean $(BONUS_OBJS) $(OBJS)
+bonus: $(UTILS_OBJS) $(BONUS_OBJS)
 	@echo "$(BOLD)$(LIGHT_BLUE)Compile $(BONUS)...$(RESET)"
 	@$(MAKE) -C $(LIBFT_DIR)
-	@$(CC) $(CFLAG) $(INCLUDES) $(BONUS_OBJS) $(LIBFT_DIR)/$(LIBFT_A) -o $(BONUS)
+	@$(CC) $(CFLAG) $(INCLUDES) $(UTILS_OBJS) $(BONUS_OBJS) $(LIBFT_DIR)/$(LIBFT_A) -o $(BONUS)
 	@echo "$(BOLD)$(LIGHT_BLUE)Compile $(BONUS) Complete!$(RESET)"
 
 re: fclean all
