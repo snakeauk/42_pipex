@@ -1,42 +1,44 @@
 #include "utils.h"
 
-t_pipe	*init_pipe(int argc, char **argv, char **envp, char **commands)
-{
-	t_pipe	*pipe;
+int	pipex(int argc, char **argv, char **envp, char **cmd_list);
+t_pipe	init_pipe(int argc, char **argv, char **envp, char **cmd_list);
 
-	pipe = (t_pipe *)malloc(sizeof(t_pipe));
-	if (!pipe)
+t_pipe	init_pipe(int argc, char **argv, char **envp, char **cmd_list)
+{
+	t_pipe	*data;
+
+	data = (t_pipe *)malloc(sizeof(t_pipe));
+	if (!data)
 	{
-		perror("Error: ");
+		perror("Error");
 		return (NULL);
 	}
-	pipe->env = get_env_path(envp);
-	if (!pipe->env)
+	data->env = get_env_path(envp);
+	if (!data->env)
 	{
-		free(pipe);
+		free(data);
 		return (NULL);
 	}
-	pipe->argc = argc;
-	pipe->argv = argv;
-	pipe->cmd_list = commands;
-	pipe->cmd_index = 0;
+	data->argc = argc;
+	data->argv = argv;
+	data->cmd_list = cmd_list;
+	data->cmd_index = 0;
 	if (is_here_doc(argv))
-		pipe->cmd_limit = argc - 4;
+		data->cmd_limit = argc - 4;
 	else
-		pipe->cmd_limit = argc - 3;
-	pipe->status = EXIT_SUCCESS;
-	return (pipe);
+		data->cmd_limit = argc - 3;
+	return (data);
 }
 
-int	pipex(int argc, char **argv, char **envp, char **commands)
+int	pipex(int argc, char **argv, char **envp, char **cmd_list)
 {
-	t_pipe	*pipe;
+	t_pipe	data;
 	int		status;
 
-	pipe = init_pipe(argc, argv, envp, commands);
-	if (!pipe)
+	data = init_pipe(argc, argv, envp, cmd_list);
+	if (!data)
 		return (EXIT_FAILURE);
-	status = pipe->status;
-	free(pipe);
+	status = ft_fork(data);
+	free(data);
 	return (status);
 }

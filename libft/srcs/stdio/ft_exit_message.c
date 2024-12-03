@@ -6,18 +6,15 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 03:03:48 by ubuntu            #+#    #+#             */
-/*   Updated: 2024/11/08 23:06:43 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/12/03 16:19:27 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_stdio.h"
 
-void	ft_exit_message(int status, const char *format, ...)
+void	ft_exit_message(int status, int msg)
 {
-	va_list	ap;
-
-	va_start(ap, format);
-	ft_vdprintf(STDERR_FILENO, format, ap);
-	va_end(ap);
+	errno = msg;
+	perror("Error");
 	exit(status);
 }

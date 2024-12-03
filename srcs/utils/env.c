@@ -11,6 +11,6 @@ char	*get_env_path(char **envp)
 			return (envp[index]);
 		index++;
 	}
-	ft_dprintf(EXIT_FAILURE, "Error: PATH not found\n");
+	ft_dprintf(STDERR_FILENO, "Error: PATH not find\n");
 	return (NULL);
 }
