@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:04:18 by kinamura          #+#    #+#             */
-/*   Updated: 2024/12/04 21:09:10 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/12/04 21:12:25 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	child(t_pipe *data, int *pipefd)
 {
 	pid_t	pid;
 	char	*cmd_path;
-	char	**cmd_paths;
 
 	pid = fork();
 	if (pid)
