@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:04:18 by kinamura          #+#    #+#             */
-/*   Updated: 2024/12/04 21:21:50 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/12/04 21:38:10 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	child(t_pipe *data, int *pipefd)
 		if (!cmd_path || data->infile < 0 || data->outfile < 0)
 			exit(128);
 		execve(cmd_path, data->cmd, data->envp);
+		free((void **)data->cmd);
 		exit(128);
 	}
 }

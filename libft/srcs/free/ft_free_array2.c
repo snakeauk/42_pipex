@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free_array2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 03:14:04 by ubuntu            #+#    #+#             */
-/*   Updated: 2024/11/01 03:14:06 by ubuntu           ###   ########.fr       */
+/*   Updated: 2024/12/04 22:33:08 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 void	ft_free_array2(void **array)
 {
-	size_t	index;
+	int	index;
 
 	index = 0;
 	if (!array)
 		return ;
-	while (array[index] != NULL)
+	while (array[index])
 	{
 		free(array[index]);
 		index++;

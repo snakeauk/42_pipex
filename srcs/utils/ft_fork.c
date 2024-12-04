@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:04:29 by kinamura          #+#    #+#             */
-/*   Updated: 2024/12/04 21:10:22 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/12/04 22:31:33 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,10 @@ int	*create_pipes(t_pipe *data)
 	int	*pipefd;
 
 	index = 0;
-	pipefd = (int *)malloc(sizeof(int) * data->cmd_size - 1);
+	pipefd = (int *)malloc(sizeof(int) * (data->cmd_size - 1) * 2);
 	if (!pipefd)
 		return (NULL);
+	ft_bzero(pipefd, sizeof(int) * 2 * (data->cmd_size - 1));
 	while (index < data->cmd_size - 1)
 	{
 		if (pipe(pipefd + 2 * index) < 0)
@@ -44,7 +45,7 @@ int	close_pipes(int *pipefd, t_pipe *data)
 	int	index;
 
 	index = 0;
-	while (index < data->cmd_size - 1)
+	while (index < 2 * (data->cmd_size - 1))
 	{
 		if (close(pipefd[index]) < 0)
 		{
@@ -64,6 +65,7 @@ int	ft_wait(t_pipe *data)
 
 	index = 0;
 	status = EXIT_SUCCESS;
+	s = EXIT_SUCCESS;
 	while (index < data->cmd_size)
 	{
 		wait(&s);
@@ -90,11 +92,12 @@ int	ft_fork(t_pipe *data)
 	{
 		data->cmd = ft_split(data->cmd_list[data->cmd_index], ' ');
 		child(data, pipefd);
-		free((void **)data->cmd);
+		ft_free_array2((void **)data->cmd);
 		data->cmd_index++;
 	}
 	ft_free_array2((void **)data->cmd_paths);
 	status = close_pipes(pipefd, data);
+	free(pipefd);
 	if (status != EXIT_SUCCESS)
 		return (status);
 	status = ft_wait(data);
