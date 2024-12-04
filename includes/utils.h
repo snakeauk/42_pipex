@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/04 21:05:27 by kinamura          #+#    #+#             */
+/*   Updated: 2024/12/04 21:07:45 by kinamura         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef UTILS_H
 # define UTILS_H
 
@@ -17,6 +29,7 @@ typedef struct s_pipe
 	char	**envp;
 	char	*env;
 	char	**cmd_list;
+	char	**cmd_paths;
 	char	**cmd;
 	int		cmd_index;
 	int		cmd_size;

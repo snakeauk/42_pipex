@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   child.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/04 21:04:18 by kinamura          #+#    #+#             */
+/*   Updated: 2024/12/04 21:09:10 by kinamura         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "utils.h"
 
 char	*get_command(char **paths, char *cmd);
@@ -53,11 +65,10 @@ void	child(t_pipe *data, int *pipefd)
 		else if (data->cmd_index == data->cmd_size - 1)
 			ft_dup2(pipefd[2 * data->cmd_index - 2], data->outfile);
 		else
-			ft_dup2(pipefd[2 * data->cmd_index - 2], pipefd[2 * data->cmd_index
-					+ 1]);
+			ft_dup2(pipefd[2 * data->cmd_index - 2],
+				pipefd[2 * data->cmd_index + 1]);
 		close_pipes(pipefd, data);
-		cmd_paths = ft_split(data->env, ':');
-		cmd_path = get_command(cmd_paths, data->cmd[0]);
+		cmd_path = get_command(data->cmd_paths, data->cmd[0]);
 		if (!cmd_path || data->infile < 0 || data->outfile < 0)
 			exit(128);
 		execve(cmd_path, data->cmd, data->envp);

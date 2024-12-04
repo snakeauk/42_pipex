@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_fork.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/04 21:04:29 by kinamura          #+#    #+#             */
+/*   Updated: 2024/12/04 21:10:22 by kinamura         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "utils.h"
 
 int	*create_pipes(t_pipe *data);
@@ -71,6 +83,9 @@ int	ft_fork(t_pipe *data)
 	if (!pipefd)
 		return (EXIT_FAILURE);
 	data->cmd_index = 0;
+	data->cmd_paths = ft_split(data->env, ':');
+	if (!data->cmd_paths)
+		return (EXIT_FAILURE);
 	while (data->cmd_index < data->cmd_size)
 	{
 		data->cmd = ft_split(data->cmd_list[data->cmd_index], ' ');
@@ -78,6 +93,7 @@ int	ft_fork(t_pipe *data)
 		free((void **)data->cmd);
 		data->cmd_index++;
 	}
+	ft_free_array2((void **)data->cmd_paths);
 	status = close_pipes(pipefd, data);
 	if (status != EXIT_SUCCESS)
 		return (status);
