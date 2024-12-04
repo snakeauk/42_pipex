@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:04:18 by kinamura          #+#    #+#             */
-/*   Updated: 2024/12/04 21:38:10 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/12/04 23:09:04 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,13 @@ char	*get_command(char **paths, char *cmd)
 
 int	ft_dup2(int read_fd, int out_fd)
 {
+	if (read_fd < 0 || out_fd < 0)
+		exit(128);
 	if (dup2(read_fd, STDIN_FILENO) < 0)
 		return (EXIT_FAILURE);
 	if (dup2(out_fd, STDOUT_FILENO) < 0)
 		return (EXIT_FAILURE);
-	return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 void	child(t_pipe *data, int *pipefd)
@@ -68,7 +70,7 @@ void	child(t_pipe *data, int *pipefd)
 				pipefd[2 * data->cmd_index + 1]);
 		close_pipes(pipefd, data);
 		cmd_path = get_command(data->cmd_paths, data->cmd[0]);
-		if (!cmd_path || data->infile < 0 || data->outfile < 0)
+		if (!cmd_path)
 			exit(128);
 		execve(cmd_path, data->cmd, data->envp);
 		free((void **)data->cmd);

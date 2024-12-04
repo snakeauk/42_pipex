@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:04:47 by kinamura          #+#    #+#             */
-/*   Updated: 2024/12/04 21:04:54 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/12/04 23:13:05 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int	pipex(int argc, char **argv, char **envp, char **cmd_list)
 	if (!data.env)
 		return (EXIT_FAILURE);
 	status[0] = file_open(argc, argv, &data);
+	if (data.infile < 0 || data.outfile < 0)
+		return (EXIT_FAILURE);
 	status[1] = ft_fork(&data);
 	if (is_here_doc(argv))
 		unlink(HEREDOC_TMP_FILE);
