@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:04:18 by kinamura          #+#    #+#             */
-/*   Updated: 2024/12/05 00:07:31 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/12/05 00:12:41 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	child(t_pipe *data, int *pipefd)
 			exit(EXIT_FAILURE);
 		close_pipes(pipefd, data);
 		cmd_path = get_command(data->cmd_paths, data->cmd[0]);
-		if (!cmd_path || data->infile <= 0)
+		if (!cmd_path)
 			exit(128);
 		execve(cmd_path, data->cmd, data->envp);
 		free((void **)data->cmd);
