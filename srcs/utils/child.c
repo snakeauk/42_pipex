@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:04:18 by kinamura          #+#    #+#             */
-/*   Updated: 2024/12/04 21:12:25 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/12/04 21:21:50 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*get_command(char **paths, char *cmd)
 		free(command);
 		paths++;
 	}
-	ft_dprintf(STDERR_FILENO, "Error: Command not find\n");
+	ft_dprintf(STDERR_FILENO, "%s: command not found\n", cmd);
 	return (NULL);
 }
 
