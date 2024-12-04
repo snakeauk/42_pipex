@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:05:27 by kinamura          #+#    #+#             */
-/*   Updated: 2024/12/04 21:07:45 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/12/05 00:00:20 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,12 @@ char		**ft_split_cmd(int argc, char **argv);
 int			pipex(int argc, char **argv, char **envp, char **cmd_list);
 
 // file.c
-int			file_open(int argc, char **argv, t_pipe *data);
+int	open_infile(t_pipe *data);
+int	open_outfile(t_pipe *data);
 
 // child.c
 char		*get_command(char **paths, char *cmd);
-int			ft_dup2(int read_fd, int out_fd);
+int			ft_dup2(t_pipe *data, int *pipefd);
 void		child(t_pipe *data, int *pipefd);
 
 // fork.c

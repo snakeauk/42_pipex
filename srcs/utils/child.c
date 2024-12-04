@@ -6,14 +6,14 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:04:18 by kinamura          #+#    #+#             */
-/*   Updated: 2024/12/04 23:09:04 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/12/05 00:07:31 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
 char	*get_command(char **paths, char *cmd);
-int		ft_dup2(int read_fd, int out_fd);
+int		ft_dup2(t_pipe *data, int *pipefd);
 void	child(t_pipe *data, int *pipefd);
 
 char	*get_command(char **paths, char *cmd)
@@ -30,7 +30,8 @@ char	*get_command(char **paths, char *cmd)
 			return (command);
 		else if ((access(command, F_OK) == 0) && (access(command, X_OK) < 0))
 		{
-			ft_dprintf(STDERR_FILENO, strerror(13));
+			perror(cmd);
+			free(command);
 			return (NULL);
 		}
 		free(command);
@@ -40,13 +41,28 @@ char	*get_command(char **paths, char *cmd)
 	return (NULL);
 }
 
-int	ft_dup2(int read_fd, int out_fd)
+int	ft_dup2(t_pipe *data, int *pipefd)
 {
-	if (read_fd < 0 || out_fd < 0)
-		exit(128);
-	if (dup2(read_fd, STDIN_FILENO) < 0)
-		return (EXIT_FAILURE);
-	if (dup2(out_fd, STDOUT_FILENO) < 0)
+	int	ret;
+
+	if (data->cmd_index == 0)
+	{
+		if (open_infile(data) != EXIT_SUCCESS)
+			return (EXIT_FAILURE);
+		ret = dup2(data->infile, pipefd[1]);
+	}
+	else if (data->cmd_index == data->cmd_size - 1)
+	{
+		if (open_outfile(data) != EXIT_SUCCESS)
+			return (EXIT_FAILURE);
+		ret = dup2(pipefd[2 * data->cmd_index - 2], data->outfile);
+	}
+	else
+	{
+		ret = dup2(pipefd[2 * data->cmd_index - 2],
+				pipefd[2 * data->cmd_index + 1]);
+	}
+	if (ret < 0)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
@@ -60,17 +76,12 @@ void	child(t_pipe *data, int *pipefd)
 	if (pid)
 	{
 		if (!data->cmd)
-			exit(127);
-		if (data->cmd_index == 0)
-			ft_dup2(data->infile, pipefd[1]);
-		else if (data->cmd_index == data->cmd_size - 1)
-			ft_dup2(pipefd[2 * data->cmd_index - 2], data->outfile);
-		else
-			ft_dup2(pipefd[2 * data->cmd_index - 2],
-				pipefd[2 * data->cmd_index + 1]);
+			exit(128);
+		if (ft_dup2(data, pipefd) != EXIT_SUCCESS)
+			exit(EXIT_FAILURE);
 		close_pipes(pipefd, data);
 		cmd_path = get_command(data->cmd_paths, data->cmd[0]);
-		if (!cmd_path)
+		if (!cmd_path || data->infile <= 0)
 			exit(128);
 		execve(cmd_path, data->cmd, data->envp);
 		free((void **)data->cmd);

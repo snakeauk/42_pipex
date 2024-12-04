@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:04:47 by kinamura          #+#    #+#             */
-/*   Updated: 2024/12/04 23:13:05 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/12/05 00:03:02 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,24 +29,23 @@ t_pipe	init_pipe(int argc, char **argv, char **envp, char **cmd_list)
 		data.cmd_size = argc - 4;
 	else
 		data.cmd_size = argc - 3;
+	data.infile = 0;
+	data.outfile = 0;
 	return (data);
 }
 
 int	pipex(int argc, char **argv, char **envp, char **cmd_list)
 {
 	t_pipe	data;
-	int		status[2];
+	int		status;
 
 	data = init_pipe(argc, argv, envp, cmd_list);
 	if (!data.env)
 		return (EXIT_FAILURE);
-	status[0] = file_open(argc, argv, &data);
-	if (data.infile < 0 || data.outfile < 0)
-		return (EXIT_FAILURE);
-	status[1] = ft_fork(&data);
+	status = ft_fork(&data);
 	if (is_here_doc(argv))
 		unlink(HEREDOC_TMP_FILE);
-	if (status[1] != EXIT_SUCCESS)
-		return (status[1]);
-	return (status[0]);
+	if (status != EXIT_SUCCESS)
+		return (status);
+	return (status);
 }
