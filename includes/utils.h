@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:05:27 by kinamura          #+#    #+#             */
-/*   Updated: 2024/12/05 00:00:20 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/12/05 02:14:51 by ubuntu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int			pipex(int argc, char **argv, char **envp, char **cmd_list);
 // file.c
 int			open_infile(t_pipe *data);
 int			open_outfile(t_pipe *data);
+int			open_iofile(t_pipe *data);
 
 // child.c
 char		*get_command(char **paths, char *cmd);

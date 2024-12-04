@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_fork.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:04:29 by kinamura          #+#    #+#             */
-/*   Updated: 2024/12/04 22:31:33 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/12/05 02:20:36 by ubuntu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	*create_pipes(t_pipe *data)
 	pipefd = (int *)malloc(sizeof(int) * (data->cmd_size - 1) * 2);
 	if (!pipefd)
 		return (NULL);
-	ft_bzero(pipefd, sizeof(int) * 2 * (data->cmd_size - 1));
 	while (index < data->cmd_size - 1)
 	{
 		if (pipe(pipefd + 2 * index) < 0)
@@ -43,18 +42,20 @@ int	*create_pipes(t_pipe *data)
 int	close_pipes(int *pipefd, t_pipe *data)
 {
 	int	index;
+	int	status;
 
 	index = 0;
+	status = EXIT_SUCCESS;
 	while (index < 2 * (data->cmd_size - 1))
 	{
 		if (close(pipefd[index]) < 0)
 		{
 			perror("Error");
-			return (EXIT_FAILURE);
+			status = EXIT_FAILURE;
 		}
 		index++;
 	}
-	return (EXIT_SUCCESS);
+	return (status);
 }
 
 int	ft_wait(t_pipe *data)
@@ -95,11 +96,9 @@ int	ft_fork(t_pipe *data)
 		ft_free_array2((void **)data->cmd);
 		data->cmd_index++;
 	}
-	ft_free_array2((void **)data->cmd_paths);
 	status = close_pipes(pipefd, data);
-	free(pipefd);
-	if (status != EXIT_SUCCESS)
-		return (status);
 	status = ft_wait(data);
+	free(pipefd);
+	ft_free_array2((void **)data->cmd_paths);
 	return (status);
 }
