@@ -67,7 +67,9 @@ fclean:
 	@$(RM) $(MAN_OBJS) $(BONUS_OBJS) $(UTILS_OBJS) $(NAME) $(BONUS)
 	@echo "$(BOLD)$(LIGHT_BLUE)ALL Cleaning $(NAME) Complete!$(RESET)"
 
-bonus: $(UTILS_OBJS) $(BONUS_OBJS)
+bonus: $(BONUS)
+
+$(BONUS): $(UTILS_OBJS) $(BONUS_OBJS)
 	@echo "$(BOLD)$(LIGHT_BLUE)Compile $(BONUS)...$(RESET)"
 	@$(MAKE) -C $(LIBFT_DIR)
 	@$(CC) $(CFLAG) $(INCLUDES) $(UTILS_OBJS) $(BONUS_OBJS) $(LIBFT_DIR)/$(LIBFT_A) -o $(BONUS)
