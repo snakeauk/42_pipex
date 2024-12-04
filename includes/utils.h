@@ -43,8 +43,8 @@ char		**ft_split_cmd(int argc, char **argv);
 int			pipex(int argc, char **argv, char **envp, char **cmd_list);
 
 // file.c
-int	open_infile(t_pipe *data);
-int	open_outfile(t_pipe *data);
+int			open_infile(t_pipe *data);
+int			open_outfile(t_pipe *data);
 
 // child.c
 char		*get_command(char **paths, char *cmd);
