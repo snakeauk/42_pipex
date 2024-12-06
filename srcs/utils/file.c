@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:04:24 by kinamura          #+#    #+#             */
-/*   Updated: 2024/12/06 16:32:27 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/12/06 16:53:15 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	open_infile(t_pipe *data);
 int	open_outfile(t_pipe *data);
-int open_iofile(t_pipe *data);
+int	open_iofile(t_pipe *data);
 
 int	open_infile(t_pipe *data)
 {
@@ -41,7 +41,7 @@ int	open_outfile(t_pipe *data)
 	return (EXIT_SUCCESS);
 }
 
-int open_iofile(t_pipe *data)
+int	open_iofile(t_pipe *data)
 {
 	if (data->cmd_index == 0)
 	{
