@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:04:18 by kinamura          #+#    #+#             */
-/*   Updated: 2024/12/05 02:29:03 by ubuntu           ###   ########.fr       */
+/*   Updated: 2024/12/06 16:42:31 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,24 +45,25 @@ char	*get_command(char **paths, char *cmd)
 
 int	ft_dup2(t_pipe *data, int *pipefd)
 {
-	int	ret;
+	int	ret_r;
+	int ret_w;
 
 	if (data->cmd_index == 0)
 	{
-		if (data->infile < 0)
-			return (EXIT_FAILURE);
-		ret = dup2(data->infile, pipefd[1]);
+		ret_r = dup2(data->infile, STDIN_FILENO);
+		ret_w = dup2(pipefd[1], STDOUT_FILENO);
 	}
 	else if (data->cmd_index == data->cmd_size - 1)
 	{
-		if (data->outfile < 0)
-			return (EXIT_FAILURE);
-		ret = dup2(pipefd[2 * data->cmd_index - 2], data->outfile);
+		ret_r = dup2(pipefd[2 * data->cmd_index - 2], STDIN_FILENO);
+		ret_w = dup2(data->outfile, STDOUT_FILENO);
 	}
 	else
-		ret = dup2(pipefd[2 * data->cmd_index - 2],
-				pipefd[2 * data->cmd_index + 1]);
-	if (ret < 0)
+	{
+		ret_r = dup2(pipefd[2 * data->cmd_index - 2], STDIN_FILENO);
+		ret_w = dup2(pipefd[2 * data->cmd_index + 1], STDOUT_FILENO);
+	}
+	if (ret_r < 0||ret_w < 0)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
@@ -73,12 +74,17 @@ void	child(t_pipe *data, int *pipefd)
 	char	*cmd_path;
 
 	pid = fork();
-	if (pid)
+	if (pid < 0)
+	{
+		perror("Error: fork");
+		exit(EXIT_FAILURE);
+	}
+	if (pid == 0)
 	{
 		if (!data->cmd)
 			exit(128);
-		if (data->cmd_index == 0)
-			open_iofile(data);
+		if (open_iofile(data) != EXIT_SUCCESS)
+			exit(EXIT_FAILURE);
 		if (ft_dup2(data, pipefd) != EXIT_SUCCESS)
 			exit(EXIT_FAILURE);
 		close_pipes(pipefd, data);

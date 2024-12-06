@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:04:24 by kinamura          #+#    #+#             */
-/*   Updated: 2024/12/05 02:26:43 by ubuntu           ###   ########.fr       */
+/*   Updated: 2024/12/06 16:32:27 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,17 @@ int	open_outfile(t_pipe *data)
 
 int open_iofile(t_pipe *data)
 {
-	open_infile(data);
-	if (data->infile < 0)
-		return (EXIT_FAILURE);
-	open_outfile(data);
-	if (data->outfile < 0)
-		return (EXIT_FAILURE);
+	if (data->cmd_index == 0)
+	{
+		open_infile(data);
+		if (data->infile < 0)
+			return (EXIT_FAILURE);
+	}
+	else if (data->cmd_index == data->cmd_size - 1)
+	{
+		open_outfile(data);
+		if (data->outfile < 0)
+			return (EXIT_FAILURE);
+	}
 	return (EXIT_SUCCESS);
 }
