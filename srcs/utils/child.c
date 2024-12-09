@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:04:18 by kinamura          #+#    #+#             */
-/*   Updated: 2024/12/06 19:46:49 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/12/09 22:45:29 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,42 @@ char	*get_command(char **paths, char *cmd);
 int		ft_dup2(t_pipe *data, int *pipefd);
 void	child(t_pipe *data, int *pipefd);
 
+char	*ft_access(char *command)
+{
+	if (access(command, F_OK) == 0 && access(command, X_OK) == 0)
+		return (command);
+	else if (access(command, F_OK) == 0 && access(command, X_OK) < 0)
+		return (NULL);
+	return (NULL);
+}
+
 char	*get_command(char **paths, char *cmd)
 {
 	char	*cmd_path;
 	char	*command;
-	int		index;
 
-	index = 0;
-	while (paths[index])
+	if (ft_strchr(cmd, '/') != NULL)
 	{
-		cmd_path = ft_strjoin(paths[index], "/");
-		command = ft_strjoin(cmd_path, cmd);
-		free(cmd_path);
-		if ((access(command, F_OK) == 0) && (access(command, X_OK) == 0))
+		command = ft_strdup(cmd);
+		if ((command = ft_access(command)) != NULL)
 			return (command);
-		else if ((access(command, F_OK) == 0) && (access(command, X_OK) < 0))
-		{
-			perror(cmd);
-			free(command);
-			return (NULL);
-		}
 		free(command);
-		index++;
+	}
+	else
+	{
+		while (*paths)
+		{
+			cmd_path = ft_strjoin(*paths, "/");
+			command = ft_strjoin(cmd_path, cmd);
+			free(cmd_path);
+			if (access(access, X_OK) == 0)
+			{
+				if ((command = ft_access(command)) != NULL)
+					return (command);
+			}
+			free(command);
+			(*paths)++;
+		}
 	}
 	ft_dprintf(STDERR_FILENO, "%s: command not found\n", cmd);
 	return (NULL);

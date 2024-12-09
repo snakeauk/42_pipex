@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_fork.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:04:29 by kinamura          #+#    #+#             */
-/*   Updated: 2024/12/05 02:20:36 by ubuntu           ###   ########.fr       */
+/*   Updated: 2024/12/09 22:00:30 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,8 @@ int	close_pipes(int *pipefd, t_pipe *data)
 	status = EXIT_SUCCESS;
 	while (index < 2 * (data->cmd_size - 1))
 	{
-		if (close(pipefd[index]) < 0)
-		{
-			perror("Error");
+		if (ft_close(pipefd[index]) < 0)
 			status = EXIT_FAILURE;
-		}
 		index++;
 	}
 	return (status);
