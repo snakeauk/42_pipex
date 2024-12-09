@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:05:27 by kinamura          #+#    #+#             */
-/*   Updated: 2024/12/05 02:14:51 by ubuntu           ###   ########.fr       */
+/*   Updated: 2024/12/09 22:20:57 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,9 @@ int			ft_wait(t_pipe *data);
 int			ft_fork(t_pipe *data);
 
 // here_doc.c
-int			is_here_doc(char **argv);
-int			read_line(int fd, char *limit);
-int			here_doc(char *limit, t_pipe *data);
+int		is_here_doc(char **argv);
+char	*read_line(char *limit);
+int		write_fd(int fd, char *limit);
+int		here_doc(char *limit, t_pipe *data);
 
 #endif
