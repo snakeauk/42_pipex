@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:04:18 by kinamura          #+#    #+#             */
-/*   Updated: 2024/12/09 23:00:44 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/12/09 23:02:13 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,6 @@
 char	*get_command(char **paths, char *cmd);
 int		ft_dup2(t_pipe *data, int *pipefd);
 void	child(t_pipe *data, int *pipefd);
-
-char	*ft_access(char *command)
-{
-	if (access(command, F_OK) == 0 && access(command, X_OK) == 0)
-		return (command);
-	else if (access(command, F_OK) == 0 && access(command, X_OK) < 0)
-		return (NULL);
-	return (NULL);
-}
-
 char	*get_command(char **paths, char *cmd)
 {
 	char	*cmd_path;
@@ -32,10 +22,10 @@ char	*get_command(char **paths, char *cmd)
 
 	if (ft_strchr(cmd, '/') != NULL)
 	{
-		command = ft_strdup(cmd);
-		if ((command = ft_access(command)) != NULL)
-			return (command);
-		free(command);
+		if (access(cmd, F_OK) == 0 && access(cmd, X_OK) == 0)
+			return (ft_strdup(cmd));
+		else if (access(cmd, F_OK) == 0 && access(cmd, X_OK) < 0)
+			return (NULL);
 	}
 	else
 	{
@@ -44,10 +34,12 @@ char	*get_command(char **paths, char *cmd)
 			cmd_path = ft_strjoin(*paths, "/");
 			command = ft_strjoin(cmd_path, cmd);
 			free(cmd_path);
-			if (access(access, X_OK) == 0)
+			if ((access(command, F_OK) == 0) && (access(command, X_OK) == 0))
+				return (command);
+			else if ((access(command, F_OK) == 0) && (access(command, X_OK) < 0))
 			{
-				if ((command = ft_access(command)) != NULL)
-					return (command);
+				free(command);
+				return (NULL);
 			}
 			free(command);
 			(*paths)++;

@@ -6,11 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:05:27 by kinamura          #+#    #+#             */
-<<<<<<< Updated upstream
-/*   Updated: 2024/12/09 22:20:57 by kinamura         ###   ########.fr       */
-=======
-/*   Updated: 2024/12/05 03:33:27 by kinamura         ###   ########.fr       */
->>>>>>> Stashed changes
+/*   Updated: 2024/12/09 23:02:29 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
