@@ -11,7 +11,13 @@ LIBFT_DIR	=	./$(LIBFT)
 
 SRCS_DIR	=	./srcs
 UTILS_DIR	=	$(SRCS_DIR)/utils
-UTILS_SRCS	=	$(wildcard $(UTILS_DIR)/*.c)
+UTILS_SRCS	=	$(UTILS_DIR)/child.c \
+				$(UTILS_DIR)/env.c \
+				$(UTILS_DIR)/file.c \
+				$(UTILS_DIR)/ft_fork.c \
+				$(UTILS_DIR)/ft_split_cmd.c \
+				$(UTILS_DIR)/here_doc.c \
+				$(UTILS_DIR)/pipex.c
 UTILS_OBJS	=	$(UTILS_SRCS:.c=.o)
 
 MAN_DIR		=	$(SRCS_DIR)/mandatory
@@ -44,17 +50,15 @@ MAKEFLAGS	+=	--no-print-directory
 
 all: $(NAME)
 
-$(NAME): $(LIBFT_A) $(UTILS_OBJS) $(MAN_OBJS)
+$(NAME): $(UTILS_OBJS) $(MAN_OBJS)
 	@echo "$(BOLD)$(LIGHT_BLUE)Compile $(NAME)...$(RESET)"
 	@echo "$(BOLD)$(LIGHT_BLUE)Compile now...$(RESET)"
+	@$(MAKE) -C $(LIBFT_DIR)
 	@$(CC) $(CFLAG) $(INCLUDES) $(UTILS_OBJS) $(MAN_OBJS) $(LIBFT_DIR)/$(LIBFT_A) -o $(NAME)
 	@echo "$(BOLD)$(LIGHT_BLUE)Compile $(NAME) Complete!$(RESET)"
 
 .c.o:
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
-
-$(LIBFT_A):
-	@$(MAKE) -C $(LIBFT_DIR)
 
 clean:
 	@echo "$(BOLD)$(LIGHT_BLUE)Cleaning $(NAME)...$(RESET)"
@@ -70,8 +74,9 @@ fclean:
 
 bonus: $(BONUS)
 
-$(BONUS): $(LIBFT_A) $(UTILS_OBJS) $(BONUS_OBJS)
+$(BONUS): $(UTILS_OBJS) $(BONUS_OBJS)
 	@echo "$(BOLD)$(LIGHT_BLUE)Compile $(BONUS)...$(RESET)"
+	@$(MAKE) -C $(LIBFT_DIR)
 	@$(CC) $(CFLAG) $(INCLUDES) $(UTILS_OBJS) $(BONUS_OBJS) $(LIBFT_DIR)/$(LIBFT_A) -o $(BONUS)
 	@echo "$(BOLD)$(LIGHT_BLUE)Compile $(BONUS) Complete!$(RESET)"
 
