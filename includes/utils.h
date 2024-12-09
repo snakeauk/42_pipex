@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:05:27 by kinamura          #+#    #+#             */
-/*   Updated: 2024/12/09 23:02:29 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/12/10 00:35:44 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ int			ft_wait(t_pipe *data);
 int			ft_fork(t_pipe *data);
 
 // here_doc.c
-int		is_here_doc(char **argv);
-char	*read_line(char *limit);
-int		write_fd(int fd, char *limit);
-int		here_doc(char *limit, t_pipe *data);
+int			is_here_doc(char **argv);
+char		*read_line(char *limit);
+int			write_fd(int fd, char *limit);
+int			here_doc(char *limit, t_pipe *data);
 
 #endif
