@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:04:29 by kinamura          #+#    #+#             */
-/*   Updated: 2024/12/09 22:00:30 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/12/09 23:00:26 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	close_pipes(int *pipefd, t_pipe *data)
 
 	index = 0;
 	status = EXIT_SUCCESS;
-	while (index < 2 * (data->cmd_size - 1))
+	while (index < (data->cmd_size - 1) * 2)
 	{
 		if (ft_close(pipefd[index]) < 0)
 			status = EXIT_FAILURE;
