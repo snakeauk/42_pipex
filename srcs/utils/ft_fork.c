@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:04:29 by kinamura          #+#    #+#             */
-/*   Updated: 2024/12/09 23:00:26 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/12/10 00:25:52 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ int	ft_wait(t_pipe *data)
 
 	index = 0;
 	status = EXIT_SUCCESS;
-	s = EXIT_SUCCESS;
 	while (index < data->cmd_size)
 	{
+		s = EXIT_SUCCESS;
 		wait(&s);
 		if (status == EXIT_SUCCESS)
 			status = s;

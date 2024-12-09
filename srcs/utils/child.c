@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:04:18 by kinamura          #+#    #+#             */
-/*   Updated: 2024/12/09 23:02:13 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/12/10 00:12:12 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,35 +15,34 @@
 char	*get_command(char **paths, char *cmd);
 int		ft_dup2(t_pipe *data, int *pipefd);
 void	child(t_pipe *data, int *pipefd);
+
 char	*get_command(char **paths, char *cmd)
 {
 	char	*cmd_path;
 	char	*command;
 
-	if (ft_strchr(cmd, '/') != NULL)
+	if (access(cmd, F_OK) == 0)
 	{
-		if (access(cmd, F_OK) == 0 && access(cmd, X_OK) == 0)
+		if (access(cmd, X_OK) == 0)
 			return (ft_strdup(cmd));
-		else if (access(cmd, F_OK) == 0 && access(cmd, X_OK) < 0)
-			return (NULL);
+		perror(cmd);
+		return (NULL);
 	}
-	else
+	while (*paths)
 	{
-		while (*paths)
+		cmd_path = ft_strjoin(*paths, "/");
+		command = ft_strjoin(cmd_path, cmd);
+		free(cmd_path);
+		if (access(command, F_OK) == 0)
 		{
-			cmd_path = ft_strjoin(*paths, "/");
-			command = ft_strjoin(cmd_path, cmd);
-			free(cmd_path);
-			if ((access(command, F_OK) == 0) && (access(command, X_OK) == 0))
+			if (access(command, X_OK) == 0)
 				return (command);
-			else if ((access(command, F_OK) == 0) && (access(command, X_OK) < 0))
-			{
-				free(command);
-				return (NULL);
-			}
+			perror(command);
 			free(command);
-			(*paths)++;
+			return (NULL);
 		}
+		free(command);
+		paths++;
 	}
 	ft_dprintf(STDERR_FILENO, "%s: command not found\n", cmd);
 	return (NULL);
