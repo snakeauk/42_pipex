@@ -6,7 +6,7 @@
 /*   By: kinamura <kinamura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:04:18 by kinamura          #+#    #+#             */
-/*   Updated: 2024/12/10 00:35:08 by kinamura         ###   ########.fr       */
+/*   Updated: 2024/12/10 22:38:07 by kinamura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ void	child(t_pipe *data, int *pipefd)
 {
 	pid_t	pid;
 	char	*cmd_path;
-	int		ret[2];
 
 	pid = fork();
 	if (pid < 0)
@@ -104,11 +103,11 @@ void	child(t_pipe *data, int *pipefd)
 	{
 		if (!data->cmd)
 			exit(128);
-		ret[0] = open_iofile(data);
-		ret[1] = ft_dup2(data, pipefd);
-		close_pipes(pipefd, data);
-		if (ret[0] != EXIT_SUCCESS || ret[1] != EXIT_SUCCESS)
+		if (open_iofile(data, pipefd) != EXIT_SUCCESS)
 			exit(EXIT_FAILURE);
+		if (ft_dup2(data, pipefd) != EXIT_SUCCESS)
+			exit(EXIT_FAILURE);
+		close_pipes(pipefd, data);
 		cmd_path = get_command(data->cmd_paths, data->cmd[0]);
 		if (!cmd_path)
 			exit(128);
